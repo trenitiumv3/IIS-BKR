@@ -12,48 +12,11 @@ class Satuan extends CI_Controller {
 	public function index()
 	{
         
-		$data['main_content'] = 'master/satuan_list_view';
-        $this->sendEmail();
+		$data['main_content'] = 'master/satuan_list_view';        
         $this->satuanModel->getSatuanList();
         $this->load->view('template/template', $data);	
     }
 
-    function sendEmail(){
-        
-        $config = Array
-            (
-                'protocol' => 'mail',
-                'smtp_host' => 'mail.cyberits.co.id',
-                'smtp_port' => 465,
-                'smtp_user' => 'no-reply@cyberits.co.id',
-                'smtp_pass' => 'Pass@word1',
-                'mailtype'  => 'html',
-                'charset' => 'iso-8859-1',
-                'wordwrap' => TRUE
-            );  
-
-        $this->email->initialize($config);                   
-
-        $this->load->library('email');
-
-        $this->email->from('no-reply@cyberits.co.id','Feedback System');
-        $this->email->to('vickysiswanto@gmail.com');
-        
-        $this->email->subject('Email Test');
-        $this->email->message('Testing the email class.');
-
-        if($this->email->send())
-        {
-            //echo '1';
-            $status = 'Success';
-            $msg = 'Please see the detail on your email address.';
-        }else{
-            show_error($this->email->print_debugger());
-            $status = 'failed';
-            $msg = 'Thankyou for your message, but we are sorry your message wont reach us any time soon. We will fix it as soon as possible';
-        }
-    }
-    
     function dataSatuanListAjax($superUserID=""){
 
         //Check Super Admin Clinic
