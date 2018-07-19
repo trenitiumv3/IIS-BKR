@@ -7,7 +7,7 @@ class Login extends CI_Controller {
         parent::__construct();
         error_reporting(0);
         $this->load->helper(array('form', 'url','security','date'));
-        $this->load->database();
+        //$this->load->database();
         $this->load->model('UserModel'); 
         $this->load->model('ErrorStatusModel');    
     }
@@ -43,10 +43,8 @@ class Login extends CI_Controller {
 													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
 												);
 		} catch (Exception $e) {
-			$error_code = $e->getCode();
-			$error_text = $e->getMessage();
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
-							                            'resMessage' => $error_text
+			$jsonEncodeResponse = json_encode(array( 	'resCode' => $e->getCode(),
+							                            'resMessage' => $e->getMessage()
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {
