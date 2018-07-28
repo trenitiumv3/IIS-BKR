@@ -6,7 +6,8 @@ class Supplier extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->helper(array('form', 'url','security','date'));    
-        $this->load->model('SupplierModel',"supplierModel");    
+        $this->load->model('SupplierModel',"supplierModel"); 
+        $this->is_logged_in();   
     }
 
 	public function index()
@@ -49,9 +50,9 @@ class Supplier extends CI_Controller {
             $row = array();
             $row[] = $no;
             $row[] = $item['id'];
-            $row[] = $item['supplier_name'];
-            $row[] = $item['desc'];
-            $row[] = $item['is_active'];
+            $row[] = $item['name'];
+            $row[] = $item['description'];
+            $row[] = $item['status'];
             $row[] = date_format($date_created,"d M Y")." by ".$item['user_created'];
             $row[] = date_format($date_lastModified,"d M Y")." by ".$item['user_updated'];                        
             $data[] = $row;
@@ -80,7 +81,7 @@ class Supplier extends CI_Controller {
         $datetime = date('Y-m-d H:i:s', time());
         $data=array(
             'supplier_name'=>$name,
-            'desc'=>$desc,
+            'description'=>$desc,
             'is_active'=>1,
             "user_created" => "sample",
 			"date_created"=>$datetime,
@@ -152,5 +153,15 @@ class Supplier extends CI_Controller {
         }
 
         echo json_encode(array('status' => $status, 'msg' => $msg));
-	}
+    }
+    
+    function is_logged_in(){
+        $is_logged_in = $this->session->userdata('is_logged_in');
+        if(!isset($is_logged_in) || $is_logged_in != true) {
+            $url_login = site_url("Login");
+            echo 'You don\'t have permission to access this page. <a href="'.$url_login.'"">Login</a>';
+            die();
+            redirect("login/index");
+        }
+    }
 }

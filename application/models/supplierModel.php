@@ -1,13 +1,13 @@
 <?php 
 	class SupplierModel extends CI_Model{
         
-        var $column_order = array('id','supplier_name', 'desc',null); //set column field database for datatable orderable
-        var $column_search = array('supplier_name'); //set column field database for datatable searchable just firstname ,
+        var $column_order = array('id','name', 'description',null); //set column field database for datatable orderable
+        var $column_search = array('name'); //set column field database for datatable searchable just firstname ,
 
 		function getSupplierList(){
 			$this->db->select('*');
             $this->db->from('ms_supplier a');
-            $this->db->where('a.is_active', 1);
+            $this->db->where('a.status', 3);
             $query = $this->db->get();
             return $query->result_array();
         }
@@ -40,8 +40,8 @@
         }
         
         function _dataSupplierQuery($searchText,$orderByColumnIndex,$orderDir){
-            $this->db->select('a.id, a.supplier_name, a.desc,
-            a.is_active, a.date_created, a.date_updated, a.user_created, a.user_updated');
+            $this->db->select('a.id, a.name, a.description,
+            a.status, a.date_created, a.date_updated, a.user_created, a.user_updated');
             $this->db->from('ms_supplier a');
             
             //WHERE
@@ -74,7 +74,7 @@
 		function getSupplierDetail($id){
 			$this->db->select('*');
             $this->db->from('ms_supplier a');           
-            $this->db->where('a.is_active', 1);
+            $this->db->where('a.status', 1);
             $this->db->where('a.id', $id);
             $query = $this->db->get();
             return $query->result_array();	

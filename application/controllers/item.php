@@ -6,7 +6,8 @@ class Item extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->helper(array('form', 'url','security','date'));  
-        $this->load->model('ItemModel',"itemModel");             
+        $this->load->model('ItemModel',"itemModel");  
+        $this->is_logged_in();              
     }
 
 	public function index(){        
@@ -126,5 +127,15 @@ class Item extends CI_Controller {
         //$this->output->enable_profiler(TRUE);
         //output to json format
         echo json_encode($output);
+    }
+
+    function is_logged_in(){
+        $is_logged_in = $this->session->userdata('is_logged_in');
+        if(!isset($is_logged_in) || $is_logged_in != true) {
+            $url_login = site_url("Login");
+            echo 'You don\'t have permission to access this page. <a href="'.$url_login.'"">Login</a>';
+            die();
+            redirect("login/index");
+        }
     }
 }
