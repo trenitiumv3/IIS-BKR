@@ -1,12 +1,12 @@
 <?php
-class ItemModel extends CI_Model{
+class StockItemModel extends CI_Model{
 
 	var $column_order = array('id','name', 'description',null); //set column field database for datatable orderable
     var $column_search = array('name','barcode'); //set column field database for datatable searchable just firstname ,
 
     function getItemList(){
         $this->db->select('*');
-        $this->db->from('ms_item a');
+        $this->db->from('tr_stock_item a');
         $this->db->where('a.is_active', 1);
         $query = $this->db->get();
         return $query->result_array();
@@ -25,7 +25,7 @@ class ItemModel extends CI_Model{
     }
 
     public function count_all(){
-        $this->db->from("ms_item a");
+        $this->db->from("tr_stock_item a");
         //$this->db->where('a.createdBy',$superUserID);
 
         return $this->db->count_all_results();
@@ -42,7 +42,7 @@ class ItemModel extends CI_Model{
     function _dataItemQuery($searchText,$orderByColumnIndex,$orderDir){
         $this->db->select('a.id, a.name, a.description, a.barcode, a.price_supplier, a.price_customer, a.qty_stock,
         a.status, a.id_user_created, a.id_user_updated, a.date_created, a.date_updated');
-        $this->db->from('ms_item a');
+        $this->db->from('tr_stock_item a');
         
         //WHERE
         $i = 0;
@@ -73,7 +73,7 @@ class ItemModel extends CI_Model{
 
     function getSupplierDetail($id){
         $this->db->select('*');
-        $this->db->from('ms_item a');           
+        $this->db->from('tr_stock_item a');           
         $this->db->where('a.is_active', 1);
         $this->db->where('a.id', $id);
         $query = $this->db->get();
@@ -81,29 +81,22 @@ class ItemModel extends CI_Model{
     }
 
     function createItem($data){
-        $this->db->insert('ms_item',$data);
+        $this->db->insert('tr_stock_item',$data);
         $result=$this->db->insert_id();
         return $result;
     }
 
     function updateItem($data,$id){
         $this->db->where('id',$id);
-        $this->db->update('ms_item',$data);
+        $this->db->update('tr_stock_item',$data);
         $result=$this->db->affected_rows();
         return $result;
     }
     
     function deleteItem($id){
         $this->db->where('id',$id);
-        $this->db->delete('ms_item');
+        $this->db->delete('tr_stock_item');
     }
-	
-	function getItemDetail($id_item) {
-        $this->db->select('*');
-        $this->db->from('ms_item a');
-        $this->db->where('a.id', $id_item);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
+
 }
 ?>

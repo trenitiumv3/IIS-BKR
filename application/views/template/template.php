@@ -35,7 +35,8 @@
     <link href="<?php echo base_url();?>assets/adminbsb/css/themes/all-themes.css" rel="stylesheet" />
 
     <!-- Jquery Core Js -->
-    <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.min.js"></script>    
+    <script src="<?php echo base_url();?>assets/custom/validate_master.js"></script>
 </head>
 
 <body class="theme-red">

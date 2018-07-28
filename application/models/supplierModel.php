@@ -1,19 +1,19 @@
 <?php 
-	class SatuanModel extends CI_Model{
+	class SupplierModel extends CI_Model{
         
-        var $column_order = array('satuanID','satuanName', 'satuanShortName',null); //set column field database for datatable orderable
-        var $column_search = array('satuanName','satuanShortName'); //set column field database for datatable searchable just firstname ,
+        var $column_order = array('id','supplier_name', 'desc',null); //set column field database for datatable orderable
+        var $column_search = array('supplier_name'); //set column field database for datatable searchable just firstname ,
 
-		function getSatuanList(){
+		function getSupplierList(){
 			$this->db->select('*');
-            $this->db->from('table_master_satuan a');
-            $this->db->where('a.isActive', 1);
+            $this->db->from('ms_supplier a');
+            $this->db->where('a.is_active', 1);
             $query = $this->db->get();
             return $query->result_array();
         }
 
-        function getSatuanListData ($searchText,$orderByColumnIndex,$orderDir, $start,$limit){
-            $this->_dataSatuanQuery($searchText,$orderByColumnIndex,$orderDir);
+        function getSupplierListData ($searchText,$orderByColumnIndex,$orderDir, $start,$limit){
+            $this->_dataSupplierQuery($searchText,$orderByColumnIndex,$orderDir);
             //$this->db->where('a.createdBy',$superUserID);
             // LIMIT
             if($limit!=null || $start!=null){
@@ -25,24 +25,24 @@
         }
 
         public function count_all(){
-            $this->db->from("table_master_satuan a");
+            $this->db->from("ms_supplier a");
             //$this->db->where('a.createdBy',$superUserID);
     
             return $this->db->count_all_results();
         }
 
         function count_filtered($searchText){
-            $this->_dataSatuanQuery($searchText,null,null);
+            $this->_dataSupplierQuery($searchText,null,null);
             //$this->db->where('a.createdBy',$superUserID);
     
             $query = $this->db->get();
             return $query->num_rows();
         }
         
-        function _dataSatuanQuery($searchText,$orderByColumnIndex,$orderDir){
-            $this->db->select('a.satuanID, a.satuanName, a.satuanShortName,
-            a.isActive, a.created, a.lastUpdated, a.createdBy, a.lastUpdatedBy');
-            $this->db->from('table_master_satuan a');
+        function _dataSupplierQuery($searchText,$orderByColumnIndex,$orderDir){
+            $this->db->select('a.id, a.supplier_name, a.desc,
+            a.is_active, a.date_created, a.date_updated, a.user_created, a.user_updated');
+            $this->db->from('ms_supplier a');
             
             //WHERE
             $i = 0;
@@ -71,31 +71,31 @@
             }
         }
 
-		function getSatuanDetail($id){
+		function getSupplierDetail($id){
 			$this->db->select('*');
-            $this->db->from('table_master_satuan a');           
-            $this->db->where('a.isActive', 1);
-            $this->db->where('a.satuanID', $id);
+            $this->db->from('ms_supplier a');           
+            $this->db->where('a.is_active', 1);
+            $this->db->where('a.id', $id);
             $query = $this->db->get();
             return $query->result_array();	
 		}
 
-        function createSatuan($data){
-            $this->db->insert('table_master_satuan',$data);
+        function createSupplier($data){
+            $this->db->insert('ms_supplier',$data);
             $result=$this->db->insert_id();
             return $result;
         }
 
-        function updateSatuan($data,$id){
-            $this->db->where('satuanID',$id);
-            $this->db->update('table_master_satuan',$data);
+        function updateSupplier($data,$id){
+            $this->db->where('id',$id);
+            $this->db->update('ms_supplier',$data);
             $result=$this->db->affected_rows();
             return $result;
         }
         
-        function deleteSatuan($id){
-            $this->db->where('satuanID',$id);
-            $this->db->delete('table_master_satuan');
+        function deleteSupplier($id){
+            $this->db->where('id',$id);
+            $this->db->delete('ms_supplier');
         }
 	}
  ?>
