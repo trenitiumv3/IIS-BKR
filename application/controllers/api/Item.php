@@ -11,6 +11,12 @@ API getItemDetailByBarcode
 	"token":"93c0f5f7746a7b04b77ca5f7937362f0",
   	"barcode":"2134uhsdf84"
 }
+
+API getAllListItem
+{
+	"username":"admin",
+	"token":"93c0f5f7746a7b04b77ca5f7937362f0"
+}
 */
 
 
@@ -87,7 +93,6 @@ class Item extends CI_Controller {
 			// GET JSON REQUEST
 			$p_token = $dataJsonRequest->token;
 			$p_username = $dataJsonRequest->username;
-
 			// CEK USER TOKEN VALID
 			$this->isUserValidToken($p_token, $p_username);
 			// GET USER
@@ -96,14 +101,13 @@ class Item extends CI_Controller {
 	        	$error_code = -2;
 	        	throw new Exception($this->setErrorMessage(-2), -2);
 	        }
-	        // GET DATA DETAIL BY BARCODE
+	        // GET ALL DATA
 	        $result_item = $this->ItemModel->getAllItem();
 
 	        if(empty($result_item)) {
 	        	$error_code = 2;
 	        	throw new Exception($this->setErrorMessage($error_code), $error_code);
 	        }
-
 	        /*
 	        $result_id = $result_item[0]['id'];
 	        $result_name = $result_item[0]['name'];
@@ -115,7 +119,6 @@ class Item extends CI_Controller {
 	        $result_user_created = $result_item[0]['user_created'];
 	        $result_user_updated = $result_item[0]['user_updated'];
 	        */
-			
 			$jsonEncodeResponse = json_encode(array('rescode' => 0,
 													'data' => $result_item,
 													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
@@ -132,14 +135,6 @@ class Item extends CI_Controller {
 		}
 
     }
-
-
-
-
-
-
-
-
 
     private function isUserValidToken($p_token, $p_username) {
 		if(empty($this->UserModel->isToken($p_token, $p_username))) {
