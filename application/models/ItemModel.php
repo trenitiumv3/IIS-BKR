@@ -20,6 +20,14 @@ class ItemModel extends CI_Model{
         return $query->result_array();
     }
 
+    function getAllItem() {
+        $this->db->select('*');
+        $this->db->from('ms_item a');
+        //$this->db->where('a.barcode', $barcode);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     function getItemListData ($searchText,$orderByColumnIndex,$orderDir, $start,$limit){
         $this->_dataItemQuery($searchText,$orderByColumnIndex,$orderDir);
         //$this->db->where('a.createdBy',$superUserID);
@@ -29,7 +37,6 @@ class ItemModel extends CI_Model{
         }
         $query = $this->db->get();
         return $query->result_array();
-
     }
 
     public function count_all(){

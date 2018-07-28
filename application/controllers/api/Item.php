@@ -77,8 +77,69 @@ class Item extends CI_Controller {
 		} finally {
 			echo $jsonEncodeResponse;
 		}
+    }
+
+    public function getAllListItem() {
+		try {
+			// RECEIVE REQUEST
+			$json = file_get_contents('php://input');
+			$dataJsonRequest = json_decode($json);
+			// GET JSON REQUEST
+			$p_token = $dataJsonRequest->token;
+			$p_username = $dataJsonRequest->username;
+
+			// CEK USER TOKEN VALID
+			$this->isUserValidToken($p_token, $p_username);
+			// GET USER
+	        $result_user = $this->UserModel->getUserDetail($p_username);
+			if(empty($result_user)) {
+	        	$error_code = -2;
+	        	throw new Exception($this->setErrorMessage(-2), -2);
+	        }
+	        // GET DATA DETAIL BY BARCODE
+	        $result_item = $this->ItemModel->getAllItem();
+
+	        if(empty($result_item)) {
+	        	$error_code = 2;
+	        	throw new Exception($this->setErrorMessage($error_code), $error_code);
+	        }
+
+	        /*
+	        $result_id = $result_item[0]['id'];
+	        $result_name = $result_item[0]['name'];
+	        $result_description = $result_item[0]['description'];
+	        $result_price_supplier = $result_item[0]['price_supplier'];
+	        $result_price_customer = $result_item[0]['price_customer'];
+	        $result_qty_stock = $result_item[0]['qty_stock'];
+	        $result_status = $result_item[0]['status'];
+	        $result_user_created = $result_item[0]['user_created'];
+	        $result_user_updated = $result_item[0]['user_updated'];
+	        */
+			
+			$jsonEncodeResponse = json_encode(array('rescode' => 0,
+													'data' => $result_item,
+													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
+												);
+		} catch (Exception $e) {
+			$error_code = $e->getCode();
+			$error_text = $e->getMessage();
+			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
+							                            'resMessage' => $error_text
+							                        ), JSON_UNESCAPED_SLASHES
+												);	
+		} finally {
+			echo $jsonEncodeResponse;
+		}
 
     }
+
+
+
+
+
+
+
+
 
     private function isUserValidToken($p_token, $p_username) {
 		if(empty($this->UserModel->isToken($p_token, $p_username))) {
@@ -107,8 +168,6 @@ class Item extends CI_Controller {
     		return "Error Server";
     	}
     }
-
-
 
 }
 ?>
