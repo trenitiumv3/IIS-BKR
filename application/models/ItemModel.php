@@ -7,7 +7,15 @@ class ItemModel extends CI_Model{
     function getItemList(){
         $this->db->select('*');
         $this->db->from('ms_item a');
-        $this->db->where('a.is_active', 1);
+        $this->db->where('a.status', 3);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    function getItemByBarcode($barcode) {
+        $this->db->select('*');
+        $this->db->from('ms_item a');
+        $this->db->where('a.barcode', $barcode);
         $query = $this->db->get();
         return $query->result_array();
     }
