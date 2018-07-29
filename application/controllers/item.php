@@ -77,6 +77,65 @@ class Item extends CI_Controller {
         $this->load->view('template/template', $data);	
     }
 
+    public function insertItem(){
+        $status = "";
+        $msg="";
+
+        //$userLogin = $this->session->userdata('username');
+        $barcode = $this->security->xss_clean($this->input->post('barcode'));
+        $itemName = $this->security->xss_clean($this->input->post('name'));
+        $qtyStock = $this->security->xss_clean($this->input->post('qty_stock'));
+        $supplier = $this->security->xss_clean($this->input->post('supplier'));
+        $priceSupplier = $this->security->xss_clean($this->input->post('price_supplier'));
+        $desc = $this->security->xss_clean($this->input->post('description'));
+        $itemList = json_decode($this->security->xss_clean($this->input->post('item_price_list')));
+        $priceCustomer="";
+
+        var_dump($desc);        
+        //is_array($itemList);
+        foreach($itemList as $row){
+            if($row->qty == 1){
+                $priceCustomer=$row->price;
+            }
+            echo $row->qty;
+            echo $row->price;
+        }
+
+        $datetime = date('Y-m-d H:i:s', time());
+        $dataItem=array(
+            'name'=>$itemName,
+            'description'=>$desc,
+            'barcode'=>$barcode,
+            'price_supplier'=>$priceSupplier,
+            'price_customer'=>$priceCustomer,
+            'qty_stock'=>$qtyStock,
+            'status'=>3,
+            "user_created" => $this->session->userdata('userId'),
+			"date_created"=>$datetime,
+            "user_updated"=>$this->session->userdata('userId'),
+            "date_updated"=>$datetime,
+        );
+        $id_item = $this->ItemModel->createItem($dataNewItem);
+        
+        // Add Stock Batch
+        $price_total_supplier = $p_new_data->qty_stock * $p_new_data->price_supplier;
+	    $data_stock[] = array(	
+            'id_item' => $id_item,
+            'type_trans' => "add_stock",
+            'id_supplier' => $p_id_supplier,
+            'qty_trans' => $p_new_data->qty_stock,
+            'price_total_supplier' => $price_total_supplier,
+            'last_qty_stock' => 0,
+            'current_qty_stock' => $p_new_data->qty_stock,
+            'status' => 0,
+            'user_created' => $p_new_data->user_created
+        );
+	    // MASUKIN STOK BATCH
+	    $isSuccess[] = $this->StockModel->addStockBatch($data_stock);
+        $id_item = $this->ItemModel->createItem($dataNewItem);
+
+    }
+
     function dataSatuanListAjax($superUserID=""){
 
         //Check Super Admin Clinic
