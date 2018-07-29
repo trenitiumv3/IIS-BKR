@@ -9,13 +9,26 @@ API getItemDetailByBarcode
 {
 	"username":"admin",
 	"token":"93c0f5f7746a7b04b77ca5f7937362f0",
-  	"barcode":"2134uhsdf84"
+	"data": {
+	  	"barcode":"2134uhsdf84"
+  	}
 }
 
 API getAllListItem
 {
 	"username":"admin",
 	"token":"93c0f5f7746a7b04b77ca5f7937362f0"
+}
+
+API updateItem
+{
+	"username":"admin",
+	"token":"805e5a8c7eb7517f863718274716a734",
+  	"data": {
+      "id":1,
+      "name":"Indomie test",
+      "description":"Indomie telor bakso test"
+  	}
 }
 */
 
@@ -39,7 +52,7 @@ class Item extends CI_Controller {
 			// GET JSON REQUEST
 			$p_token = $dataJsonRequest->token;
 			$p_username = $dataJsonRequest->username;
-			$p_barcode = $dataJsonRequest->barcode;
+			$p_barcode = $dataJsonRequest->data->barcode;
 
 			// CEK USER TOKEN VALID
 			$this->isUserValidToken($p_token, $p_username);
@@ -133,7 +146,43 @@ class Item extends CI_Controller {
 		} finally {
 			echo $jsonEncodeResponse;
 		}
+    }
 
+    public function updateItem() {
+		try {
+			// RECEIVE REQUEST
+			$json = file_get_contents('php://input');
+			$dataJsonRequest = json_decode($json);
+			// GET JSON REQUEST
+			$p_token = $dataJsonRequest->token;
+			$p_username = $dataJsonRequest->username;
+			$p_data_update = $dataJsonRequest->data;
+			// CEK USER TOKEN VALID
+			$this->isUserValidToken($p_token, $p_username);
+			// GET USER
+	        $result_user = $this->UserModel->getUserDetail($p_username);
+			if(empty($result_user)) {
+	        	$error_code = -2;
+	        	throw new Exception($this->setErrorMessage(-2), -2);
+	        }
+	        // UPDATE ITEM
+	        $data_update_master[] = $p_data_update;
+	        if(!$this->ItemModel->updateItemById($data_update_master)) {
+	        	throw new Exception($this->setErrorMessage(2), 2);
+			}
+			$jsonEncodeResponse = json_encode(array('rescode' => 0,
+													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
+												);
+		} catch (Exception $e) {
+			$error_code = $e->getCode();
+			$error_text = $e->getMessage();
+			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
+							                            'resMessage' => $error_text
+							                        ), JSON_UNESCAPED_SLASHES
+												);	
+		} finally {
+			echo $jsonEncodeResponse;
+		}
     }
 
     private function isUserValidToken($p_token, $p_username) {

@@ -9,10 +9,12 @@ API addStockItem
 {
 	"username":"admin",
 	"token":"842f882962f43c04acc5b3b7b2233c88",
-	"id_item":"1",
-	"id_supplier":"2",
-	"qty_item":"10",
-	"price_total_supplier":"105000"
+	"data": {
+		"id_item":1,
+		"id_supplier":2,
+		"qty_item":10,
+		"price_total_supplier":105000
+  	}
 }
 */
 
@@ -37,10 +39,10 @@ class Stock extends CI_Controller {
 			// GET JSON REQUEST
 			$p_token = $dataJsonRequest->token;
 			$p_username = $dataJsonRequest->username;
-			$p_id_item = $dataJsonRequest->id_item;
-			$p_id_supplier = $dataJsonRequest->id_supplier;
-			$p_qty_item = $dataJsonRequest->qty_item;
-			$p_price_total_supplier = $dataJsonRequest->price_total_supplier;
+			$p_id_item = $dataJsonRequest->data->id_item;
+			$p_id_supplier = $dataJsonRequest->data->id_supplier;
+			$p_qty_item = $dataJsonRequest->data->qty_item;
+			$p_price_total_supplier = $dataJsonRequest->data->price_total_supplier;
 			// CEK USER TOKEN VALID
 			$this->isUserValidToken($p_token, $p_username);
 			// GET USER
@@ -72,7 +74,7 @@ class Stock extends CI_Controller {
 	        $this->db->trans_start();
 	        // MASUKIN STOK BATCH
 	        $isSuccess[] = $this->StockModel->addStockBatch($data_stock);
-	        $isSuccess[] = $this->StockModel->updateStockMaster($data_update_master);
+	        $isSuccess[] = $this->ItemModel->updateItemById($data_update_master);
 	        if (in_array(false, $isSuccess)) {
 	        	throw new Exception($this->setErrorMessage(-4), -4);
 	        }

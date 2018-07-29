@@ -11,10 +11,5 @@ class StockModel extends CI_Model{
         return ($this->db->affected_rows() >= 1) ? true : false;
     }
 
-    function updateStockMaster($data) {
-        $this->db->update_batch('ms_item', $data, 'id');
-        return ($this->db->affected_rows() >= 1) ? true : false;
-    }
-
 }
 ?>

@@ -20,6 +20,11 @@ class ItemModel extends CI_Model{
         return $query->result_array();
     }
 
+    function updateItemById($data) {
+        $this->db->update_batch('ms_item', $data, 'id');
+        return ($this->db->affected_rows() >= 1) ? true : false;
+    }
+
     function getAllItem() {
         $this->db->select('*');
         $this->db->from('ms_item a');

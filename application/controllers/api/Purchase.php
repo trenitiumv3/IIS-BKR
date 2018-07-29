@@ -168,7 +168,7 @@ class Purchase extends CI_Controller {
 	        // KURANGIN STOK
 	        $isSuccess[] = $this->StockModel->reduceStockBatch($data_stock);
 	       	// UPDATE STOK DI MASTER ITEM
-	        $isSuccess[] = $this->StockModel->updateStockMaster($data_update_master);
+	        $isSuccess[] = $this->ItemModel->updateItemById($data_update_master);
 	        // CEK JIKA ADA YANG TIDAK BERHASIL
 	        if (in_array(false, $isSuccess)) {
 	        	throw new Exception($this->setErrorMessage(-4), -4);
