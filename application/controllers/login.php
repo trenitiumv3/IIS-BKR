@@ -35,7 +35,7 @@ class Login extends CI_Controller {
 
     private function setSessionData($userData){        
         $data = array(
-            'userID' => $userData['id'],
+            'userId' => $userData['id'],
             'name' => $userData['name'],
             'userName' => $userData['username'],            
             'role' => $userData['privilege'],

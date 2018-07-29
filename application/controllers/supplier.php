@@ -11,8 +11,7 @@ class Supplier extends CI_Controller {
     }
 
 	public function index()
-	{
-        
+	{                   
 		$data['main_content'] = 'master/supplier_list_view';        
         $this->supplierModel->getSupplierList();
         $this->load->view('template/template', $data);	
@@ -80,35 +79,39 @@ class Supplier extends CI_Controller {
 
         $datetime = date('Y-m-d H:i:s', time());
         $data=array(
-            'supplier_name'=>$name,
+            'name'=>$name,
             'description'=>$desc,
-            'is_active'=>1,
-            "user_created" => "sample",
+            'status'=>3,
+            "user_created" => $this->session->userdata('userId'),
 			"date_created"=>$datetime,
-            "user_updated"=>"sample",
+            "user_updated"=>$this->session->userdata('userId'),
             "date_updated"=>$datetime,
         );
-
-        $this->db->trans_begin();
-        $query = $this->supplierModel->createSupplier($data);
-
-        if ($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            $status = "error";
-            $msg="Cannot save master to Database";
-        }
-        else {
-            if($query==1){
-                $this->db->trans_commit();
-                $status = "success";
-                $msg="Supplier berhasil ditambahkan";
-            }else{
+        
+        if($this->checkDuplicateMaster("", $name, false)) {
+            $this->db->trans_begin();
+            $query = $this->supplierModel->createSupplier($data);
+            if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 $status = "error";
-                $msg="Terjadi kesalahan saat menyimpan data.. ";
+                $msg="Cannot save master to Database";
             }
+            else {
+                if($query==1){
+                    $this->db->trans_commit();
+                    $status = "success";
+                    $msg="Supplier berhasil ditambahkan";
+                }else{
+                    $this->db->trans_rollback();
+                    $status = "error";
+                    $msg="Terjadi kesalahan saat menyimpan data.. ";
+                }
+            }
+        }else{
+            $status = "error";
+            $msg="Supplier ".$name." sudah terdaftar !";
         }
-
+        
         echo json_encode(array('status' => $status, 'msg' => $msg));
 	}
     
@@ -119,16 +122,17 @@ class Supplier extends CI_Controller {
         $datetime = date('Y-m-d H:i:s', time());
         $id = $this->security->xss_clean($this->input->post('id'));
         $name = $this->security->xss_clean($this->input->post('name'));
-        // OLD DATA
-        $old_data = $this->supplierModel->getDiseaseByID($id);
-
+        $desc = $this->security->xss_clean($this->input->post('desc'));
+        
+        $datetime = date('Y-m-d H:i:s', time());
         $data=array(
-            'diseaseName'=>$name,		
-			"lastUpdated"=>$datetime,
-			"lastUpdatedBy"=>"sample"
+            'name'=>$name,
+            'description'=>$desc,                        
+            "user_updated"=>$this->session->userdata('userId'),
+            "date_updated"=>$datetime,
         );
 
-        if($this->checkDuplicateMaster($name, true, $old_data->diseaseName)) {
+        if($this->checkDuplicateMaster($id, $name, true)) {
             $this->db->trans_begin();
             $query = $this->supplierModel->updateSupplier($data, $id);
 
@@ -140,21 +144,36 @@ class Supplier extends CI_Controller {
                 if ($query == 1) {
                     $this->db->trans_commit();
                     $status = "success";
-                    $msg = "Master Disease has been updated successfully.";
+                    $msg="Supplier berhasil diperbaharui";
                 } else {
                     $this->db->trans_rollback();
                     $status = "error";
-                    $msg = "Failed to save data Master ! ";
+                    $msg="Terjadi kesalahan saat menyimpan data.. ";
                 }
             }
         }else{
             $status = "error";
-            $msg="This ".$name." Disease already exist !";
+            $msg="Supplier ".$name." sudah terdaftar !";
         }
 
         echo json_encode(array('status' => $status, 'msg' => $msg));
     }
     
+    private function checkDuplicateMaster($id,$name,$isEdit){
+        $query=array();
+        if($isEdit){
+            $query = $this->supplierModel->checkSupplierNameUpdate($name, $id);
+        }else{
+            $query = $this->supplierModel->checkSupplierNameInsert($name);
+        }
+        
+        if(empty($query)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function is_logged_in(){
         $is_logged_in = $this->session->userdata('is_logged_in');
         if(!isset($is_logged_in) || $is_logged_in != true) {

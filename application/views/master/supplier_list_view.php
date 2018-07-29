@@ -124,6 +124,7 @@
                             <textarea rows="4" id="supplier-desc-edit" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
                         </div>
                     </div>  
+                    <input type="hidden" id="supplier-id-edit">
                 </form>
             </div><!--modal body-->
 
@@ -174,7 +175,7 @@
                     "className": "dt-center",
                     "createdCell": function (td, cellData, rowData, row, col) {
                         var $btn_edit = $("<button>", { class:"btn btn-primary btn-xs edit-btn","type": "button",
-                            "data-toggle":"modal","data-target":"#clinic-modal-edit","data-value": rowData[1]});
+                            "data-toggle":"modal","data-target":"#supplier-modal-edit","data-value": rowData[1]});
                         $btn_edit.append("<span class='glyphicon glyphicon-pencil'></span>&nbsp Edit");                       
 
                         var $btn_del = $("<button>", { class:"btn btn-danger btn-xs del-btn","type": "button",
@@ -217,7 +218,31 @@
             } else {
                 return true;
             }
-        }
+        }        
+
+        $("#datatables-list tbody").on( "click", "button.edit-btn", function() {
+            console.log("asdasd");
+            $('#supplier-form-edit')[0].reset();
+            $('#err-master-name-edit').text("");
+            
+            var id_item =  $(this).attr("data-value");
+            var $tr =  $(this).closest("tr");
+            var $td =  $(this).closest("td");
+            var name = $tr.find('td').eq(1).text();
+            var text = $tr.find('td').eq(2).text();
+            var created = $td.find('div.item-info').attr("data-created");
+            var last_modified = $td.find('div.item-info').attr("data-last-modifed");
+            
+            $('#supplier-name-edit').val(name);
+            $('#supplier-desc-edit').val(text);
+            $('#supplier-id-edit').val(id_item);
+
+            $('#created').empty();
+            $('#created').append("Created : "+"<b>"+created+"</b>");
+            $('#last_modified').empty();
+            $('#last_modified').append("Last Modified : "+"<b>"+last_modified+"</b>");
+
+        });
 
         var saveDataEvent = function(e) {
             if (validate()) {
@@ -226,7 +251,7 @@
                 formData.append("desc", $("#supplier-desc-add").val());
 
                 $(this).saveData({
-                    url: "<?php echo site_url('supplier/addSupplier')?>",
+                    url: "<?php echo site_url('supplier/createSupplier')?>",
                     data: formData,
                     locationHref: "<?php echo site_url('supplier')?>",
                     hrefDuration : 1000
@@ -238,7 +263,7 @@
         var updateDataEvent = function(e){
             if (validateEdit()) {
                 var formData = new FormData();
-                formData.append("id", $("#supplier-id").val());
+                formData.append("id", $("#supplier-id-edit").val());
                 formData.append("name", $("#supplier-name-edit").val());
                 formData.append("desc", $("#supplier-desc-edit").val());
 

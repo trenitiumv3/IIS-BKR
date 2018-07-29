@@ -33,6 +33,9 @@
 
     <!-- adminbsb Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url();?>assets/adminbsb/css/themes/all-themes.css" rel="stylesheet" />
+    <!-- Alertify -->
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/alertify/alertify.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/alertify/themes/default.min.css">
 
     <!-- Jquery Core Js -->
     <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.min.js"></script>    
@@ -850,6 +853,8 @@
 
     <!-- Demo Js -->
     <script src="<?php echo base_url();?>assets/adminbsb/js/demo.js"></script>
+    <!-- Alertify -->
+    <script src="<?php echo base_url();?>assets/plugins/alertify/alertify.min.js"></script>
 </body>
 
 </html>

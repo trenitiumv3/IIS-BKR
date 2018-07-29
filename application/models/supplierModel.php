@@ -74,15 +74,31 @@
 		function getSupplierDetail($id){
 			$this->db->select('*');
             $this->db->from('ms_supplier a');           
-            $this->db->where('a.status', 1);
+            $this->db->where('a.status', 3);
             $this->db->where('a.id', $id);
+            $query = $this->db->get();
+            return $query->result_array();	
+        }
+        
+        function checkSupplierNameUpdate($name, $id){
+			$this->db->select('*');
+            $this->db->from('ms_supplier a');           
+            $this->db->where('a.name', $name);
+            $this->db->where('a.id !=', $id);
+            $query = $this->db->get();
+            return $query->result_array();	
+        }
+        function checkSupplierNameInsert($name){
+			$this->db->select('*');
+            $this->db->from('ms_supplier a');           
+            $this->db->where('a.name', $name);            
             $query = $this->db->get();
             return $query->result_array();	
 		}
 
         function createSupplier($data){
             $this->db->insert('ms_supplier',$data);
-            $result=$this->db->insert_id();
+            $result=$this->db->affected_rows();
             return $result;
         }
 
