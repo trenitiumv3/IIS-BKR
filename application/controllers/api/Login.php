@@ -43,8 +43,8 @@ class Login extends CI_Controller {
 													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
 												);
 		} catch (Exception $e) {
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $e->getCode(),
-							                            'resMessage' => $e->getMessage()
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $e->getCode(),
+							                            'resmessage' => $e->getMessage()
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {

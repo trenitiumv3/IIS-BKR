@@ -97,8 +97,8 @@ class Purchase extends CI_Controller {
 		} catch (Exception $e) {
 			$error_code = $e->getCode();
 			$error_text = $e->getMessage();
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
-							                            'resMessage' => $error_text
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $error_code,
+							                            'resmessage' => $error_text
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {
@@ -178,8 +178,8 @@ class Purchase extends CI_Controller {
 													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
 												);
 		} catch (Exception $e) {
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $e->getCode(),
-							                            'resMessage' => $e->getMessage()
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $e->getCode(),
+							                            'resmessage' => $e->getMessage()
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {

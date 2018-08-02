@@ -108,8 +108,8 @@ class Item extends CI_Controller {
 		} catch (Exception $e) {
 			$error_code = $e->getCode();
 			$error_text = $e->getMessage();
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
-							                            'resMessage' => $error_text
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $error_code,
+							                            'resmessage' => $error_text
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {
@@ -158,8 +158,8 @@ class Item extends CI_Controller {
 		} catch (Exception $e) {
 			$error_code = $e->getCode();
 			$error_text = $e->getMessage();
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
-							                            'resMessage' => $error_text
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $error_code,
+							                            'resmessage' => $error_text
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {
@@ -195,8 +195,8 @@ class Item extends CI_Controller {
 		} catch (Exception $e) {
 			$error_code = $e->getCode();
 			$error_text = $e->getMessage();
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
-							                            'resMessage' => $error_text
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $error_code,
+							                            'resmessage' => $error_text
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {
@@ -252,8 +252,8 @@ class Item extends CI_Controller {
 		} catch (Exception $e) {
 			$error_code = $e->getCode();
 			$error_text = $e->getMessage();
-			$jsonEncodeResponse = json_encode(array( 	'resCode' => $error_code,
-							                            'resMessage' => $error_text
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $error_code,
+							                            'resmessage' => $error_text
 							                        ), JSON_UNESCAPED_SLASHES
 												);	
 		} finally {
