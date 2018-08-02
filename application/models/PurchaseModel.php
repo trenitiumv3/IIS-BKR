@@ -8,7 +8,8 @@ class PurchaseModel extends CI_Model{
 
     function savePurchaseSummary($data) {
         $this->db->insert('tr_purchase_summary', $data);
-        return ($this->db->affected_rows() != 1) ? false : true;
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
     }
 
     function isPurchaseStillProcess($id_summary) {

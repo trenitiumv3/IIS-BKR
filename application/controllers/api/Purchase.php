@@ -87,12 +87,14 @@ class Purchase extends CI_Controller {
 	        								"user_created" => $result_user[0]['id']
 	    								);
 	        // MASUKIN PURCHASE SUMMARY
-	        $this->PurchaseModel->savePurchaseSummary($dataPurchaseSummary);
+	        $id_purchase_summary = $this->PurchaseModel->savePurchaseSummary($dataPurchaseSummary);
 
 	        // ID PURCHASE SUMMARY
 
 			$jsonEncodeResponse = json_encode(array('rescode' => 0,
-													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
+													'resmessage' => $this->setErrorMessage(0),
+													'id_purchase_summary' => $id_purchase_summary
+												), JSON_UNESCAPED_SLASHES
 												);
 		} catch (Exception $e) {
 			$error_code = $e->getCode();
