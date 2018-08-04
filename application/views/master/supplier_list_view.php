@@ -52,6 +52,41 @@
     <!-- #END# Basic Examples -->           
 </div>
 
+<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modal-title-add">Konfirmasi Hapus</h4>
+            </div><!--modal header-->
+
+            <div class="modal-body">
+                <div class="alert alert-danger hidden" id="err-msg">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+
+                </div>
+                <form id="supplier-form-add" action="">
+                    <input type="hidden" id="del-id"/>
+                    <label for="supplier-name-add">Apakah Anda ingin menghapus data <span class="del-name"></span></label>                                                                
+                </form>
+            </div><!--modal body-->
+
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-primary waves-effect" id="btn-delete">
+                    <i class="material-icons">save</i>
+                    <span>Save</span>
+                </button>
+                <button type="button" class="btn btn-danger waves-effect" id="btn-cancel">
+                    <i class="material-icons">clear</i>
+                    <span>Cancel</span>
+                </button>
+            </div><!--modal footer-->
+
+        </div><!--modal content-->
+    </div><!--modal dialog-->
+</div>
+
 <div class="modal fade" id="supplier-modal-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -177,7 +212,7 @@
                         $btn_edit.append("<span class='glyphicon glyphicon-pencil'></span>&nbsp Edit");                       
 
                         var $btn_del = $("<button>", { class:"btn btn-danger btn-xs del-btn","type": "button",
-                            "data-value": rowData[1]});
+                            "data-value": rowData[1],"data-name": rowData[2]});
                         $btn_del.append("<span class='glyphicon glyphicon-remove'></span>&nbsp Hapus");
                        
                         $(td).html($btn_edit).append(" ").append(" ").append($btn_del);
@@ -217,6 +252,18 @@
                 return true;
             }
         }        
+        
+        $("#datatables-list tbody").on( "click", "button.del-btn", function() {
+            $("#confirm-delete-modal").modal("show");
+            var delId=$(this).attr("data-value");
+            var delName=$(this).attr("data-name");
+            $("#del-id").val(delId);
+            $(".del-name").text(delName);
+
+        });
+        $("#btn-cancel").click(function(){
+            $("#confirm-delete-modal").modal("hide");
+        })
 
         $("#datatables-list tbody").on( "click", "button.edit-btn", function() {
             console.log("asdasd");

@@ -24,4 +24,8 @@ class Welcome extends CI_Controller {
 		$data['main_content'] = 'home';
 		$this->load->view('template/template', $data);		
 	}
+	public function generateBarcode(){
+		$data['main_content'] = 'generate_barcode';
+		$this->load->view('template/template', $data);		
+	}
 }

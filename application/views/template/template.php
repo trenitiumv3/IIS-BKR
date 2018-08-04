@@ -39,6 +39,7 @@
 
     <!-- Jquery Core Js -->
     <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.min.js"></script>    
+    <script src="<?php echo base_url();?>assets/plugins/barcode/barcode.min.js"></script>
     <script src="<?php echo base_url();?>assets/custom/validate_master.js"></script>
 </head>
 
@@ -152,7 +153,13 @@
                                 <a href="<?php echo site_url("item/addNewStock");?>">Tambah Stock</a>
                             </li>                            
                         </ul>
-                    </li>                                
+                    </li>  
+                    <li>
+                        <a href="<?php echo site_url("welcome/generateBarcode");?>">
+                            <i class="material-icons">print</i>
+                            <span>Generate Barcode</span>
+                        </a>
+                    </li>                               
                     <li>
                         <a href="<?php echo site_url("login/logout");?>">
                             <i class="material-icons">power_settings_new</i>

@@ -400,9 +400,16 @@ class Item extends CI_Controller {
         echo json_encode(array('status' => $status, 'msg' => $msg));  
     }
 
-    function test(){
-        $data = $this->ItemModel->getItemByBarcode("123123");
-        echo count($data);
+    function checkBarcode($barcode){
+        $data = $this->ItemModel->getItemByBarcode($barcode);
+        if(count($data)==0){            
+            $status = "success";
+            $msg="Barcode berhasil di generate";
+        }else{
+            $status = "error";
+            $msg="Barcode ini sudah terdaftar";
+        }        
+        echo json_encode(array('status' => $status, 'msg' => $msg));                                        
     }
 
     function is_logged_in(){
