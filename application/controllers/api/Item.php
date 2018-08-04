@@ -60,6 +60,7 @@ class Item extends CI_Controller {
         $this->load->model('UserModel'); 
         $this->load->model('StockModel'); 
         $this->load->model('ItemModel'); 
+        $this->load->model('ItemDiscountModel'); 
         $this->load->model('ErrorStatusModel');    
     }
 
@@ -260,6 +261,46 @@ class Item extends CI_Controller {
 			echo $jsonEncodeResponse;
 		}
 
+    }
+
+    public function getDiscountItem() {
+    	try {
+			// RECEIVE REQUEST
+			$json = file_get_contents('php://input');
+			$dataJsonRequest = json_decode($json);
+			// GET JSON REQUEST
+			$p_token = $dataJsonRequest->token;
+			$p_username = $dataJsonRequest->username;
+			$p_id_item = $dataJsonRequest->data->id_item;
+			// CEK USER TOKEN VALID
+			$this->isUserValidToken($p_token, $p_username);
+			// GET USER
+	        $result_user = $this->UserModel->getUserDetail($p_username);
+			if(empty($result_user)) {
+	        	$error_code = -2;
+	        	throw new Exception($this->setErrorMessage(-2), -2);
+	        }
+	        // GET ITEM DISCOUNT
+	        $result_item = $this->ItemDiscountModel->getDiscountByItem($p_id_item);
+
+	        if(empty($result_item)) {
+	        	$error_code = 2;
+	        	throw new Exception($this->setErrorMessage($error_code), $error_code);
+	        }
+			$jsonEncodeResponse = json_encode(array('rescode' => 0,
+													'data' => $result_item,
+													'resmessage' => $this->setErrorMessage(0)), JSON_UNESCAPED_SLASHES
+												);
+		} catch (Exception $e) {
+			$error_code = $e->getCode();
+			$error_text = $e->getMessage();
+			$jsonEncodeResponse = json_encode(array( 	'rescode' => $error_code,
+							                            'resmessage' => $error_text
+							                        ), JSON_UNESCAPED_SLASHES
+												);	
+		} finally {
+			echo $jsonEncodeResponse;
+		}
     }
 
 
