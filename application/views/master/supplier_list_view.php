@@ -1,8 +1,7 @@
 <div class="container-fluid">
     <div class="block-header">
         <h2>
-            JQUERY DATATABLES
-            <small>Taken from <a href="https://datatables.net/" target="_blank">datatables.net</a></small>
+            DATA SUPPLIER            
         </h2>
     </div>
     <!-- Basic Examples -->
@@ -10,8 +9,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <h2>
-                        DATA SUPPLIER&nbsp&nbsp
+                    <h2>                        
                         <button type="button" class="btn btn-primary waves-effect" id="add-btn"
                             data-toggle="modal" data-target="#supplier-modal-add">
                             <i class="material-icons">add_circle_outline</i>

@@ -5,19 +5,7 @@
                 <div class="header">
                     <h2>
                         Tambah Barang Baru                        
-                    </h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    </h2>                    
                 </div>
                 <div class="body">
                     <!-- Nav tabs -->
@@ -52,7 +40,7 @@
                                             <textarea rows="4" id="item-desc" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
                                         </div>
                                     </div>                                   
-                                    <button type="button" class="btn btn-primary m-t-15 waves-effect btn-next-tab" data-next="">LANJUT</button>
+                                    <button type="button" class="btn btn-primary m-t-15 waves-effect btn-next-tab" data-next="stock-info">LANJUT</button>
                                 </form>
                             </div>
                         </div>
@@ -65,7 +53,7 @@
                                         <div class="col-sm-6 no-padding">
                                             <div class="form-group">
                                                 <div class="form-line">
-                                                    <input type="text" id="supplier-select" data-label="#err-supplier-select" class="form-control" value="Focused" disabled placeholder="Supplier">
+                                                    <input type="text" id="supplier-select" data-label="#err-supplier-select" class="form-control" value="" disabled placeholder="Supplier">
                                                 </div>
                                             </div>
                                         </div>
@@ -86,11 +74,19 @@
                                     <span class="cd-error-message font-bold col-pink" id="err-item-supplier-price"></span>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" id="item-supplier-price" data-label="#err-item-supplier-price" class="numeric form-control numeric" placeholder="Masukan harga barang">
+                                            <input type="text" id="item-supplier-price" data-label="#err-item-supplier-price" class="numeric form-control numeric" placeholder="Masukan harga supplier">
                                         </div>
                                     </div>
 
-                                    <button type="button" class="btn btn-primary m-t-15 waves-effect">LANJUT</button>
+                                    <label for="item-customer-price">Harga Jual Customer<span class="col-pink">*</span></label>
+                                    <span class="cd-error-message font-bold col-pink" id="err-item-customer-price"></span>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="item-customer-price" data-label="#err-item-customer-price" class="numeric form-control numeric" placeholder="Masukan harga jual">
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary m-t-15 waves-effect btn-next-tab" data-next="price-list">LANJUT</button>
                                 </form>
                             </div>
                         </div>
@@ -100,8 +96,8 @@
                                 <br/><br/>
                                 <span class="font-bold col-pink" id="err-price-item-list"></span>                      
                                 <form class="price-item-container">
-                                    <div class="row price-item-list" id="price-item-element">
-                                        <div class="col-md-2">
+                                    <div class="row price-item-list">
+                                        <div class="col-sm-2">
                                             <b>Qty</b>
                                             <div class="input-group">
                                                 <div class="form-line">
@@ -109,7 +105,7 @@
                                                 </div>                                           
                                             </div>
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-sm-8">
                                             <b>Harga Jual</b>
                                             <div class="input-group">
                                                 <div class="form-line">
@@ -117,8 +113,36 @@
                                                 </div>                                           
                                             </div>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-danger btn-circle waves-effect waves-circle waves-float remove-discount">
+                                                <i class="material-icons">clear</i>
+                                            </button>
+                                        </div>
                                     </div>                                                                        
                                 </form>
+                                <div class="row hidden" id="price-item-element">
+                                    <div class="col-sm-2">
+                                        <b>Qty</b>
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <input type="text" class="numeric form-control price-item-qty">
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <b>Harga Jual</b>
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <input type="text" class="numeric form-control price-item-price">
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-danger btn-circle waves-effect waves-circle waves-float remove-discount">
+                                            <i class="material-icons">clear</i>
+                                        </button>
+                                    </div>
+                                </div>
                                 <button type="button" class="btn btn-primary m-t-15 waves-effect" id="btn-save">SIMPAN</button>
                             </div>
                         </div>                        
@@ -136,7 +160,13 @@
     $(document).on("input", ".numeric", function() {
         this.value = this.value.replace(/\D/g,'');
     });
-    
+
+    $(".btn-next-tab").click(function(){
+        var tabs = $(this).attr("data-next");
+        var selector = '.nav-tabs a[href="#'+tabs+'"]'; 
+        $(selector).tab('show');
+    });
+        
     function validate() {
         console.log("adad");
         var err = 0;
@@ -153,31 +183,80 @@
         if (!$('#item-supplier-price').validateRequired()) {
             err++;
         }
+        if (!$('#item-customer-price').validateRequired()) {
+            err++;
+        }
         if (!$('#supplier-select').validateRequired()) {
             err++;
         }
         
         $("#err-price-item-list").text("");
+        var countDiscount=0;
+        var discountQtyArr = [];
         $(".price-item-list").each(function(){
             var qty = $(this).find(".price-item-qty").val();
             var price = $(this).find(".price-item-price").val();
-
-            if(qty=="" || price==""){
-                $("#err-price-item-list").text("Masih terdapat data harga yang kosong..");
-                err++;
-                return false;
-            }
+            
+            if(countDiscount==0){
+                if(qty=="" && price==""){
+                    
+                }else{
+                    console.log(qty<1);
+                    if(qty<=1){
+                        $("#err-price-item-list").text("Qty harus lebih dari 1...");
+                        err++;
+                        return false;
+                    }else if(price==""){
+                        $("#err-price-item-list").text("Masih terdapat data harga yang kosong..");
+                        err++;
+                        return false;
+                    } else{
+                        discountQtyArr.push(qty);
+                    }
+                }
+                countDiscount++;
+            }else{
+                if(qty=="" || price==""){
+                    $("#err-price-item-list").text("Masih terdapat data harga yang kosong..");
+                    err++;
+                    return false;
+                }else{
+                    var found = $.inArray(qty, discountQtyArr);
+                    if(found== -1){                        
+                        if(qty<=1){
+                            $("#err-price-item-list").text("Qty harus lebih dari 1...");
+                            err++;
+                            return false;
+                        }else{
+                            discountQtyArr.push(qty);
+                        }                        
+                    }else{
+                        $("#err-price-item-list").text("Qty ke "+qty+" sudah terdapat dalam discount..");
+                        err++;
+                        return false;                        
+                    }
+                }
+                countDiscount++;
+            }            
         });
 
         if (err != 0) {
             return false;
+            alertify.set('notifier', 'position', 'bottom-right');
+            alertify.error("Data belum terisi dengan benar, Silahkan dicek kembali");
         } else {
             return true;
         }
     }
 
+    $(".remove-discount").click(function(){        
+        $(this).closest(".price-item-list").remove();
+    });
+
     $("#add-discount-btn").click(function(){
         var $copyElement = $("#price-item-element").clone(true);
+        $($copyElement).addClass("price-item-list");
+        $($copyElement).removeClass("hidden");
         $($copyElement).removeAttr("id");
         $($copyElement).find(".price-item-qty").val("");
         $($copyElement).find(".price-item-price").val("");
@@ -189,19 +268,22 @@
         $(".price-item-list").each(function(){
             var qty = $(this).find(".price-item-qty").val();
             var price = $(this).find(".price-item-price").val();
-
-            priceList.push({
-                "qty":qty,
-                "price":price
-            });
+            
+            if(qty!="" && price!=""){
+                priceList.push({
+                    "qty":qty,
+                    "price":price
+                });
+            }            
         });
 
         var formData = new FormData();
         formData.append("barcode", $("#barcode").val());
         formData.append("name", $("#item-name").val());
         formData.append("qty_stock", $("#stock").val());
-        formData.append("supplier", $("#supplier-select").val());
+        formData.append("supplier", $("#supplier-select").attr("data-value"));
         formData.append("price_supplier", $("#item-supplier-price").val());
+        formData.append("price_customer", $("#item-customer-price").val());
         formData.append("description", $("#item-desc").val());
         formData.append("item_price_list", JSON.stringify(priceList));
         
@@ -229,11 +311,9 @@
                         $(".modal").hide();
                         alertify.set('notifier', 'position', 'bottom-right');
                         alertify.success(data.msg);
-                        if (settings.redirect) {
-                            window.setTimeout(function() {
-                                location.href = settings.locationHref;
-                            }, settings.hrefDuration);
-                        }
+                        window.setTimeout(function() {
+                            location.href = "<?php echo site_url('item')?>";
+                        }, 2000);
                     } else {
                         $("#load_screen").hide();
                         alertify.set('notifier', 'position', 'bottom-right');
