@@ -105,7 +105,7 @@ class Item extends CI_Controller {
         $itemName = $this->security->xss_clean($this->input->post('name'));
         $qtyStock = $this->security->xss_clean($this->input->post('qty_stock'));
         $itemId = $this->security->xss_clean($this->input->post('id'));
-        
+        $priceSupplier = $this->security->xss_clean($this->input->post('price_supplier'));
         $desc = $this->security->xss_clean($this->input->post('description'));
         $itemList = json_decode($this->security->xss_clean($this->input->post('item_price_list')));
         $priceCustomer=$this->security->xss_clean($this->input->post('price_customer'));
@@ -119,6 +119,7 @@ class Item extends CI_Controller {
             'description'=>$desc,
             'barcode'=>$barcode,            
             'price_customer'=>$priceCustomer,
+			'price_supplier'=>$priceSupplier,
             'qty_stock'=>$qtyStock,
             'status'=>3,            
             "user_updated"=>$this->session->userdata('userId'),
@@ -381,7 +382,8 @@ class Item extends CI_Controller {
                 'user_created' =>  $this->session->userdata('userId')
             );
             $data_update_master[] = array(	'id' => $itemId,
-                'qty_stock' => $current_qty_stock,
+                'price_supplier' => $priceSupplier,
+				'qty_stock' => $current_qty_stock,
                 'user_updated'=> $this->session->userdata('userId'),
                 'date_updated'=> $datetime
             );

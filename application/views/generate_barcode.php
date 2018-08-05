@@ -17,7 +17,7 @@
             <img id="barcode"/>            
             <br/>
             <button type="button" class="btn btn-primary m-t-15 waves-effect btn-generate">Generate</button>
-            <a href="" id="btn-download" download>
+            <a href="" id="btn-download" download="a.png">
                 <button type="button" class="btn btn-primary m-t-15 waves-effect btn-download">Download</button>
             </a>
         </div>
@@ -53,10 +53,11 @@
                     alertify.success(data.msg);
                     $("#barcode").JsBarcode(value);
                     JsBarcode("#barcode", value, {                        
-                        width:1,
+                        width:2,
                         height:60
                     });
-                    $("#btn-download").attr("href",$("#barcode").attr("src"));                                  
+                    $("#btn-download").attr("href",$("#barcode").attr("src"));
+					$("#btn-download").attr("download",value+".png");					
                 } else {
                     $("#load_screen").hide();
                     alertify.set('notifier', 'position', 'bottom-right');

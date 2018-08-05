@@ -53,7 +53,13 @@
                                             <input type="text" id="stock" data-label="#err-stock" class="numeric form-control" placeholder="Masukan stock" value="<?php echo $item['qty_stock'];?>" >
                                         </div>
                                     </div> 
-
+									<label for="item-supplier-price">Harga Beli Supplier <span class="col-pink">*</span></label>
+                                    <span class="cd-error-message font-bold col-pink" id="err-item-supplier-price"></span>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="item-supplier-price" data-label="#err-item-supplier-price" class="numeric form-control numeric" placeholder="Masukan harga supplier" value="<?php echo $item['price_supplier'];?>">
+                                        </div>
+                                    </div>
                                     <label for="item-customer-price">Harga Jual Customer<span class="col-pink">*</span></label>
                                     <span class="cd-error-message font-bold col-pink" id="err-item-customer-price"></span>
                                     <div class="form-group">
@@ -281,6 +287,7 @@
         formData.append("qty_stock", $("#stock").val());
         formData.append("description", $("#item-desc").val());
         formData.append("price_customer", $("#item-customer-price").val());
+		formData.append("price_supplier", $("#item-supplier-price").val());
         formData.append("item_price_list", JSON.stringify(priceList));
         
         return formData;
