@@ -68,7 +68,7 @@ class Purchase extends CI_Controller {
 			// GET JSON REQUEST
 			$p_token = $dataJsonRequest->token;
 			$p_username = $dataJsonRequest->username;
-			$p_buyer_name = $dataJsonRequest->data->buyer_name;
+			$p_extra_discount = $dataJsonRequest->data->extra_discount;
 			$p_type_purchase = $dataJsonRequest->data->type_purchase;
 			$p_total_price_customer = $dataJsonRequest->data->total_price;
 	        // CEK USER TOKEN VALID
@@ -81,7 +81,7 @@ class Purchase extends CI_Controller {
 	        }
 	        // MANIPULATION DATA
 	        $dataPurchaseSummary = array(	"total_price" => $p_total_price_customer,
-	        								"buyer_name" => $p_buyer_name,
+	        								"extra_discount" => $p_extra_discount,
 	        								"type_purchase" => $p_type_purchase,
 	        								"status" => 1,
 	        								"user_created" => $result_user[0]['id']
