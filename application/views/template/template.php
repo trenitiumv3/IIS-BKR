@@ -28,6 +28,12 @@
     <!-- JQuery DataTable Css -->
     <link href="<?php echo base_url();?>assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="<?php echo base_url();?>assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+
+    <!-- Bootstrap Select Css -->
+    <link href="<?php echo base_url();?>assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
     <!-- Custom Css -->
     <link href="<?php echo base_url();?>assets/adminbsb/css/style.css" rel="stylesheet">
 
@@ -128,7 +134,13 @@
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
-                    </li>                                
+                    </li>     
+                    <li class="">
+                        <a href="<?php echo site_url("user");?>">
+                            <i class="material-icons">person</i>
+                            <span>User</span>
+                        </a>
+                    </li>                                 
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">view_list</i>
@@ -151,6 +163,20 @@
                             </li>
                             <li>
                                 <a href="<?php echo site_url("item/addNewStock");?>">Tambah Stock</a>
+                            </li>                            
+                        </ul>
+                    </li>  
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">poll</i>
+                            <span>Laporan</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="<?php echo site_url("report");?>">Laporan Hari ini</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url("item/addNewStock");?>">Laporan Bulanan</a>
                             </li>                            
                         </ul>
                     </li>  
@@ -212,8 +238,6 @@
     <!-- ChartJs -->
     <script src="<?php echo base_url();?>assets/plugins/chartjs/Chart.bundle.js"></script>
 
-    
-
     <!-- Sparkline Chart Plugin Js -->
     <script src="<?php echo base_url();?>assets/plugins/jquery-sparkline/jquery.sparkline.js"></script>
 
@@ -231,6 +255,11 @@
     <!-- Custom Js -->
     <script src="<?php echo base_url();?>assets/adminbsb/js/admin.js"></script>    
     <!-- <script src="<?php echo base_url();?>assets/js/pages/tables/jquery-datatable.js"></script> -->
+
+    <!-- Moment Plugin Js -->
+    <script src="<?php echo base_url();?>assets/plugins/momentjs/moment.js"></script>
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="<?php echo base_url();?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
 
     <!-- Demo Js -->
     <script src="<?php echo base_url();?>assets/adminbsb/js/demo.js"></script>

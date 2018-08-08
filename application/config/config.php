@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+date_default_timezone_set('Asia/Jakarta');
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = "http://$_SERVER[HTTP_HOST]"."/VR-INV/"; //'http://192.168.0.70/VR-INV/';//'http://dev.trenitium.com/';
+$config['base_url'] = "http://$_SERVER[HTTP_HOST]"."/IIS-BKR/"; //'http://192.168.0.70/VR-INV/';//'http://dev.trenitium.com/';
 $config['asset_url'] = 'localhost/ims_prototype/assets';//'http://dev.trenitium.com/assets/';
 /*
 |--------------------------------------------------------------------------
