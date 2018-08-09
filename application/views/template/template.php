@@ -130,7 +130,7 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li class="active">
-                        <a href="<?php echo site_url("welcome");?>">
+                        <a href="<?php echo site_url("report");?>">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>

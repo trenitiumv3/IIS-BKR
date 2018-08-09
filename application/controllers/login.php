@@ -22,10 +22,16 @@ class Login extends CI_Controller {
         $password = $this->security->xss_clean($this->input->post('password'));
 
         $query = $this->loginModel->getUser($username,md5($password));        
-        if(!empty($query)){
-            $status = 'success';
-            $msg = "";
-            $this->setSessionData($query[0]);
+        if(!empty($query)){            
+            if($query[0]['privilege']=="super admin"){
+                $status = 'success';
+                $msg = "Login Success";
+                $this->setSessionData($query[0]);
+            }else{
+                $status = 'error';
+                $msg = "You Can't Access This Page..";
+            }
+            
         }else{
             $status = 'error';
             $msg = "Username or Password is Wrong ! ";

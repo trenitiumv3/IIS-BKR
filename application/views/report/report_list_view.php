@@ -20,7 +20,7 @@
                   
                 </div>
                 <div class="body">
-                    <div class="row clearfix">
+                    <!-- <div class="row clearfix">
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="form-line">
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="table-responsive">
                         <table id="report-table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
@@ -116,7 +116,7 @@
 
 <script>
     $(function() {
-        $('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
+        //$('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
         var table = $('#report-table').DataTable({
             "lengthChange": false,            
             columns: [
