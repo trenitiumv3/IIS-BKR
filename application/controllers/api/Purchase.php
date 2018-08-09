@@ -150,7 +150,7 @@ class Purchase extends CI_Controller {
 	        	$current_qty_stock = $last_qty_stock - $qty_item;
 	        	$data_stock[] = array(	'id_item' => $id_item,
 						        		'type_trans' => "reduce_stock",
-	        							'id_supplier' => "1",
+	        							//'id_supplier' => "1",
 	        							'qty_trans' => "-".$qty_item,
 	        							'price_total_supplier' => "-",
 	        							'last_qty_stock' => $last_qty_stock,
