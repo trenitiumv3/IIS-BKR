@@ -80,6 +80,17 @@ class StockItemModel extends CI_Model{
         return $query->result_array();	
     }
 
+    function getListStockAdd($id){
+        $this->db->select('supp.name as supp_name, a.qty_trans, a.price_total_supplier, a.last_qty_stock, a.current_qty_stock, a.date_created');
+        $this->db->from('tr_stock_item a');  
+        $this->db->join('ms_supplier supp', 'a.id_supplier=supp.id');           
+        $this->db->where('a.type_trans', 'add_stock');
+        $this->db->where('a.id_item', $id);
+        $this->db->order_by('a.date_created', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();	
+    }
+
     function createItem($data){
         $this->db->insert('tr_stock_item',$data);
         $result=$this->db->insert_id();

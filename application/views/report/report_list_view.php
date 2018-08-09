@@ -35,8 +35,9 @@
                                 <tr>             
                                     <th>ID Transaksi</th>                               
                                     <th>Jenis Pembayaran</th>
-                                    <th>Total</th>
+                                    <th>Harga</th>
                                     <th>Discount</th>
+                                    <th>Total</th>
                                     <th>Kasir</th> 
                                     <th>Action</th>                                            
                                 </tr>
@@ -44,20 +45,33 @@
                             <tbody>
                                 <?php 
                                     $totalPurchase=0;
-                                    foreach($data_purchase as $row){ 
-                                        $totalPurchase += $row['total_price'];
-                                        //$discount = $row['extra_discount']? 
+                                    $totalCash=0;
+                                    $totalDebit=0;
+                                    $countDebit=0;
+                                    $countCash=0;
+                                    foreach($data_purchase as $row){
+                                        $discount= $row['extra_discount']==""?0:$row['extra_discount'];
+                                        $finalPrice=($row['total_price']-($row['total_price']*$discount/100));
+                                        $totalPurchase += $finalPrice;
+                                        if($row['type_purchase']=="cash"){
+                                            $totalCash+=$finalPrice;
+                                            $countCash++;
+                                        }else if($row['type_purchase']=="debit"){
+                                            $totalDebit+=$finalPrice;
+                                            $countDebit++;
+                                        }
                                 ?>
                                 <tr>
                                     <td><?php echo $row['id'];?></td>
                                     <td><?php echo $row['type_purchase'];?></td>
                                     <td><?php echo $row['total_price'];?></td>
-                                    <td><?php echo $row['extra_discount'];?></td>
+                                    <td><?php echo $discount;?>%</td>
+                                    <td><?php echo $finalPrice;?></td>
                                     <td><?php echo $row['name'];?></td>                                    
                                     <td class="dt-center">
-                                        <a href="<?php echo site_url()."/Report/reportClinicPoliVisitDetail/";?>">
+                                        <a href="<?php echo site_url().'/report/goToPurchaseDetail/'.$row['id'];?>">
                                             <button type="button" class="btn btn-primary btn-xs">
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp Detail
+                                                Detail
                                             </button>
                                         </a>
                                     </td>
@@ -66,14 +80,30 @@
                             </tbody>
                         </table>
 
-                        <table class="table">
+                        <table class="table">                            
                             <tr>
-                                <td><b>Total Penjualan</b></td>
-                                <td class="highlight"><?php echo $totalPurchase;?></td>
+                                <td><b>Total Transaksi Cash</b></td>
+                                <td class="highlight"><?php echo $countCash;?></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total Transaksi Debit</b></td>
+                                <td class="highlight"><?php echo $countDebit;?></td>
                             </tr>
                             <tr>
                                 <td><b>Total Transaksi</b></td>
                                 <td class="highlight"><?php echo count($data_purchase);?></td>
+                            </tr>                            
+                            <tr>
+                                <td><b>Total Penjualan Cash</b></td>
+                                <td class="highlight"><?php echo $totalCash;?></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total Penjualan Debit</b></td>
+                                <td class="highlight"><?php echo $totalDebit;?></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total Penjualan</b></td>
+                                <td class="highlight"><?php echo intval($totalPurchase);?></td>
                             </tr>
                         </table>
                     </div>
@@ -88,14 +118,15 @@
     $(function() {
         $('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
         var table = $('#report-table').DataTable({
-            "lengthChange": false,
+            "lengthChange": false,            
             columns: [
                 { data: 0,"width": "10%" },
                 { data: 1, "width": "10%"},
                 { data: 2, "width": "20%"},
                 { data: 3, "width": "10%"},
                 { data: 4, "width": "20%"},
-                { data: 5, "width": "30%"}
+                { data: 5, "width": "30%"},
+                { data: 6, "width": "30%"}
             ]
         });
     });

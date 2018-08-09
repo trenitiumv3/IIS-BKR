@@ -22,6 +22,28 @@ class PurchaseModel extends CI_Model{
         return $query->result_array();	
     }
 
+    function getPurchaseSummaryById($id){
+        $this->db->select('a.id, a.total_price, a.type_purchase, a.extra_discount, a.date_created,
+        usr.name');
+        $this->db->from('tr_purchase_summary a'); 
+        $this->db->join('ms_user usr', 'a.user_created=usr.id');          
+        $this->db->where('a.id', $id);        
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    function getPurchaseDetail($transId){
+        $this->db->select('count(a.id_item) as stock,a.id, a.id_purchase_summary, a.id_item, a.name_item, a.price_customer,
+        a.price_supplier, itm.barcode');
+        $this->db->from('tr_purchase a');                 
+        $this->db->join('ms_item itm', 'a.id_item=itm.id');   
+        $this->db->where('a.id_purchase_summary', $transId);
+        $this->db->group_by(array("a.id_purchase_summary", "a.id_item"));         
+        $query = $this->db->get();
+        return $query->result_array();	
+    }
+
     function isPurchaseStillProcess($id_summary) {
         $this->db->select('a.status');
         $this->db->from('tr_purchase_summary a');

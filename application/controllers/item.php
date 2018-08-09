@@ -375,7 +375,7 @@ class Item extends CI_Controller {
                 'type_trans' => "add_stock",
                 'id_supplier' => $supplier,
                 'qty_trans' => $qtyStock,
-                'price_total_supplier' => $priceSupplier,
+                'price_total_supplier' => $priceSupplier*$qtyStock,
                 'last_qty_stock' => $item_detail[0]['qty_stock'],
                 'current_qty_stock' => $current_qty_stock,
                 'status' => 0,

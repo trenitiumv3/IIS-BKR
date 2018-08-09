@@ -70,7 +70,7 @@
                                             <input type="text" id="stock" data-label="#err-stock" class="numeric form-control" placeholder="Masukan stock awal">
                                         </div>
                                     </div>
-                                    <label for="item-supplier-price">Harga Beli Supplier <span class="col-pink">*</span></label>
+                                    <label for="item-supplier-price">Harga Satuan Barang Supplier <span class="col-pink">*</span></label>
                                     <span class="cd-error-message font-bold col-pink" id="err-item-supplier-price"></span>
                                     <div class="form-group">
                                         <div class="form-line">
