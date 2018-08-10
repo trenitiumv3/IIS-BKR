@@ -49,6 +49,8 @@
                                     $totalDebit=0;
                                     $countDebit=0;
                                     $countCash=0;
+                                    $modalAll=$data_income->total_modal==""?0:$data_income->total_modal;
+
                                     foreach($data_purchase as $row){
                                         $discount= $row['extra_discount']==""?0:$row['extra_discount'];
                                         $finalPrice=($row['total_price']-($row['total_price']*$discount/100));
@@ -104,6 +106,14 @@
                             <tr>
                                 <td><b>Total Penjualan</b></td>
                                 <td class="highlight"><?php echo intval($totalPurchase);?></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total Harga Supplier</b></td>
+                                <td class="highlight"><?php echo intval($modalAll);?></td>
+                            </tr>
+                            <tr>
+                                <td><b>Total Keuntungan</b></td>
+                                <td class="highlight"><?php echo intval($totalPurchase-$modalAll);?></td>
                             </tr>
                         </table>
                     </div>
