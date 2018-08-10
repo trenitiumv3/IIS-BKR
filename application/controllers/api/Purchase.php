@@ -82,7 +82,7 @@ class Purchase extends CI_Controller {
 	        // MANIPULATION DATA
 	        $dataPurchaseSummary = array(	"total_price" => $p_total_price_customer,
 	        								"extra_discount" => $p_extra_discount,
-	        								"type_purchase" => $p_type_purchase,
+	        								"type_purchase" => strtolower($p_type_purchase),
 	        								"status" => 1,
 	        								"user_created" => $result_user[0]['id']
 	    								);
