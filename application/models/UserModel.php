@@ -8,6 +8,7 @@ class UserModel extends CI_Model{
         $this->db->from('ms_user a');
         $this->db->where('a.username', $username);
         $this->db->where('a.password', $password);
+        $this->db->where('a.status', 3);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -24,6 +25,7 @@ class UserModel extends CI_Model{
     function getUserListData ($searchText,$orderByColumnIndex,$orderDir, $start,$limit){
         $this->_dataUserQuery($searchText,$orderByColumnIndex,$orderDir);
         //$this->db->where('a.createdBy',$superUserID);
+        $this->db->where('a.status', 3);
         // LIMIT
         if($limit!=null || $start!=null){
             $this->db->limit($limit, $start);
@@ -35,6 +37,7 @@ class UserModel extends CI_Model{
 
     public function count_all(){
         $this->db->from("ms_user a");
+        $this->db->where('a.status', 3);
         //$this->db->where('a.createdBy',$superUserID);
 
         return $this->db->count_all_results();
@@ -42,6 +45,7 @@ class UserModel extends CI_Model{
 
     function count_filtered($searchText){
         $this->_dataUserQuery($searchText,null,null);
+        $this->db->where('a.status', 3);
         //$this->db->where('a.createdBy',$superUserID);
 
         $query = $this->db->get();

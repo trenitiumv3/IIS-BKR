@@ -174,6 +174,39 @@ class Supplier extends CI_Controller {
         }
     }
 
+    function deleteSupplier(){
+        $status = "";
+        $msg="";
+
+        $datetime = date('Y-m-d H:i:s', time());
+        $id = $this->security->xss_clean($this->input->post('id'));
+        $data=array(            
+            'status'=>'4',            
+            "date_updated"=>$datetime,
+        );
+
+        $this->db->trans_begin();
+        $query = $this->supplierModel->updateSupplier($data, $id);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $status = "error";
+            $msg = "Cannot save master to Database";
+        } else {
+            if ($query == 1) {
+                $this->db->trans_commit();
+                $status = "success";
+                $msg="Supplier berhasil diperbaharui";
+            } else {
+                $this->db->trans_rollback();
+                $status = "error";
+                $msg="Terjadi kesalahan saat menyimpan data.. ";
+            }
+        }
+
+        echo json_encode(array('status' => $status, 'msg' => $msg));
+    }
+
     function is_logged_in(){
         $is_logged_in = $this->session->userdata('is_logged_in');
         if(!isset($is_logged_in) || $is_logged_in != true) {

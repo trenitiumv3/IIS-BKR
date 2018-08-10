@@ -63,7 +63,7 @@
             <div class="modal-footer">                
                 <button type="button" class="btn btn-primary waves-effect" id="btn-delete">
                     <i class="material-icons">save</i>
-                    <span>Save</span>
+                    <span>Ya</span>
                 </button>
                 <button type="button" class="btn btn-danger waves-effect" id="btn-cancel">
                     <i class="material-icons">clear</i>
@@ -309,6 +309,18 @@
             }
             e.preventDefault();
         };
+
+        $("#btn-delete").click(function(){
+            var formData = new FormData();
+            formData.append("id", $("#del-id").val());                                                
+
+            $(this).saveData({
+                url: "<?php echo site_url('supplier/deleteSupplier')?>",
+                data: formData,
+                locationHref: "<?php echo site_url('supplier')?>",
+                hrefDuration : 1000
+            });
+        });
 
         // SAVE DATA TO DB
         $('#btn-save').click(saveDataEvent);

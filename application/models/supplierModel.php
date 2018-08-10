@@ -15,6 +15,7 @@
         function getSupplierListData ($searchText,$orderByColumnIndex,$orderDir, $start,$limit){
             $this->_dataSupplierQuery($searchText,$orderByColumnIndex,$orderDir);
             //$this->db->where('a.createdBy',$superUserID);
+            $this->db->where('a.status', 3);
             // LIMIT
             if($limit!=null || $start!=null){
                 $this->db->limit($limit, $start);
@@ -26,6 +27,7 @@
 
         public function count_all(){
             $this->db->from("ms_supplier a");
+            $this->db->where('a.status', 3);
             //$this->db->where('a.createdBy',$superUserID);
     
             return $this->db->count_all_results();
@@ -33,6 +35,7 @@
 
         function count_filtered($searchText){
             $this->_dataSupplierQuery($searchText,null,null);
+            $this->db->where('a.status', 3);
             //$this->db->where('a.createdBy',$superUserID);
     
             $query = $this->db->get();
