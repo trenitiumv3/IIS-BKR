@@ -44,6 +44,16 @@ class PurchaseModel extends CI_Model{
         return $query->result_array();	
     }
 
+    function getIncomePurchase($date){
+        $this->db->select('date(a.date_created) as tanggal, count(*) as qty, sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit');
+        $this->db->from('tr_purchase a');                         
+        $this->db->where('DATE(a.date_created)', $date);
+        $this->db->group_by(array("a.date_created"));         
+        $query = $this->db->get();
+
+        return $query->row();	
+    }
+
     function isPurchaseStillProcess($id_summary) {
         $this->db->select('a.status');
         $this->db->from('tr_purchase_summary a');

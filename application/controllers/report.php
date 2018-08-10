@@ -18,6 +18,7 @@ class Report extends CI_Controller {
         //$this->output->enable_profiler(true);
         $today=date("Y-m-d");
         $data['data_purchase'] = $this->PurchaseModel->getPurchaseByDate($today);
+        $data['data_income'] = $this->PurchaseModel->getIncomePurchase($today);
 		$data['main_content'] = 'report/report_list_view';                
         $this->load->view('template/template', $data);	
     }
