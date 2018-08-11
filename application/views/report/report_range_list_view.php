@@ -9,7 +9,11 @@
 <div class="container-fluid">
     <div class="block-header">
         <h2>
-            Report Penjualan Tanggal <?php echo date("d F Y");?>        
+            <?php
+                $date1=date_create($startDate);
+                $date2=date_create($endDate);                
+            ?>
+            Report Penjualan Tanggal <?php echo date_format($date1,"d F Y")." - ".date_format($date2,"d F Y");?>        
         </h2>
     </div>
     <!-- Basic Examples -->
@@ -25,7 +29,7 @@
                             <label for="email_address">Tanggal Awal</label>                            
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" id="start-date" class="datepicker form-control" placeholder="Masukan tanggal...">
+                                    <input type="text" id="start-date" value="<?php echo $startDate;?>" class="datepicker form-control" placeholder="Masukan tanggal...">
                                 </div>
                             </div>                           
                         </div>
@@ -33,7 +37,7 @@
                         <label for="email_address">Tanggal Akhir</label>    
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" id="end-date" class="datepicker form-control" placeholder="Masukan tanggal...">
+                                    <input type="text" id="end-date" value="<?php echo $endDate;?>" class="datepicker form-control" placeholder="Masukan tanggal...">
                                 </div>
                             </div>
                         </div>
@@ -50,6 +54,7 @@
                         <table id="report-table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>             
+                                    <th>Tanggal Transaksi</th>  
                                     <th>ID Transaksi</th>                               
                                     <th>Jenis Pembayaran</th>
                                     <th>Harga</th>
@@ -84,6 +89,7 @@
                                         }
                                 ?>
                                 <tr>
+                                    <td><?php echo $row['date_created'];?></td>
                                     <td><?php echo $row['id'];?></td>
                                     <td><?php echo $row['type_purchase'];?></td>
                                     <td><?php echo $row['total_price'];?></td>
@@ -148,15 +154,17 @@
     $(function() {
         $('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
         var table = $('#report-table').DataTable({
-            "lengthChange": false,            
+            "lengthChange": false, 
+            "order": [[ 0, 'dasc' ]],           
             columns: [
-                { data: 0,"width": "10%" },
+                { data: 0,"width": "15%" },
                 { data: 1, "width": "10%"},
-                { data: 2, "width": "20%"},
-                { data: 3, "width": "10%"},
-                { data: 4, "width": "20%"},
-                { data: 5, "width": "30%"},
-                { data: 6, "width": "30%"}
+                { data: 2, "width": "10%"},
+                { data: 3, "width": "15%"},
+                { data: 4, "width": "10%"},
+                { data: 5, "width": "20%"},
+                { data: 6, "width": "10%"},
+                { data: 6, "width": "10%"},
             ]
         });
 

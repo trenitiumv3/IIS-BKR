@@ -27,6 +27,8 @@ class Report extends CI_Controller {
         $today=date("Y-m-d");
         $data['data_purchase'] = $this->PurchaseModel->getPurchaseByDatePeriode($startDate,$endDate);
         $data['data_income'] = $this->PurchaseModel->getIncomePurchaseByPeriod($startDate,$endDate);
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
 		$data['main_content'] = 'report/report_range_list_view';                
         $this->load->view('template/template', $data);	
     }

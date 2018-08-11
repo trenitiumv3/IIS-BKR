@@ -17,18 +17,20 @@ class PurchaseModel extends CI_Model{
         usr.name');
         $this->db->from('tr_purchase_summary a'); 
         $this->db->join('ms_user usr', 'a.user_created=usr.id');          
-        $this->db->where(' DATE(a.date_created)', $date);        
+        $this->db->where(' DATE(a.date_created)', $date);   
+        $this->db->order_by("a.date_created", "DESC");     
         $query = $this->db->get();
         return $query->result_array();	
     }
 
     function getPurchaseByDatePeriode($startDate, $endDate){
         $this->db->select('a.id, a.total_price, a.type_purchase, a.extra_discount, a.date_created,
-        usr.name');
+        usr.name, a.date_created');
         $this->db->from('tr_purchase_summary a'); 
         $this->db->join('ms_user usr', 'a.user_created=usr.id');          
         $this->db->where(' DATE(a.date_created)>=', $startDate);  
-        $this->db->where(' DATE(a.date_created)<=', $endDate);        
+        $this->db->where(' DATE(a.date_created)<=', $endDate);    
+        $this->db->order_by("a.date_created", "DESC");    
         $query = $this->db->get();
         return $query->result_array();	
     }
