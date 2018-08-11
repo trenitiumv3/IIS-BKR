@@ -175,11 +175,31 @@
                     alertify.set('notifier', 'position', 'bottom-right');
                     alertify.error('Tanggal Awal tidak boleh lebih kecil dari Tanggal Akhir');
                 }else{
-                    window.setTimeout(function() {
-                        location.href = "<?php echo site_url('report/goToReportRange')?>/"+startDateVal+"/"+endDateVal;
-                    }, 100);
+                    var diff = datediff(parseDate(startDateVal),parseDate(endDateVal));
+                    console.log(Math.round(diff));
+                    if(diff > 31){
+                        alertify.set('notifier', 'position', 'bottom-right');
+                        alertify.error('Masksimal Periode adalah 31 hari');
+                    }else{
+                        window.setTimeout(function() {
+                            location.href = "<?php echo site_url('report/goToReportRange')?>/"+startDateVal+"/"+endDateVal;
+                        }, 100);
+                    }                    
+                    
                 }
             }
         });
+
+        function parseDate(str) {
+            var mdy = str.split('-');
+            return new Date(mdy[0], mdy[1], mdy[2]);
+        }
+        function datediff(first, second) {
+            // Take the difference between the dates and divide by milliseconds per day.
+            // Round to nearest whole number to deal with DST.
+            var oneDay = 24*60*60*1000;
+            var diffDays = Math.round(Math.abs((second.getTime() - first.getTime())/(oneDay)));
+            return diffDays;
+        }
     });
 </script>
