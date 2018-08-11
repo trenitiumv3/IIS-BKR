@@ -46,8 +46,7 @@
 <body class="login-page">
     <div class="login-box">
         <div class="logo">
-            <a href="javascript:void(0);">Inventory <b>System</b></a>
-            <small>Admin BootStrap Based - Material Design</small>
+            <a href="javascript:void(0);">Inventory <b>System</b></a>            
         </div>
         <div class="card">
             <div class="body">
