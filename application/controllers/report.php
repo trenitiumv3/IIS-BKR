@@ -13,8 +13,7 @@ class Report extends CI_Controller {
         $this->is_logged_in();   
     }
 
-	public function index()
-	{                   
+	public function index(){                   
         //$this->output->enable_profiler(true);
         $today=date("Y-m-d");
         $data['data_purchase'] = $this->PurchaseModel->getPurchaseByDate($today);
@@ -23,8 +22,18 @@ class Report extends CI_Controller {
         $this->load->view('template/template', $data);	
     }
 
+    public function goToReportRange($startDate="",$endDate=""){                   
+        //$this->output->enable_profiler(true);
+        $today=date("Y-m-d");
+        $data['data_purchase'] = $this->PurchaseModel->getPurchaseByDatePeriode($startDate,$endDate);
+        $data['data_income'] = $this->PurchaseModel->getIncomePurchaseByPeriod($startDate,$endDate);
+		$data['main_content'] = 'report/report_range_list_view';                
+        $this->load->view('template/template', $data);	
+    }
+
     function goToPurchaseDetail($id){        
         $data['data_purchase'] = $this->PurchaseModel->getPurchaseSummaryById($id);
+        $data['data_income'] = $this->PurchaseModel->getIncomePurchasePerBon($id);
         $data['data_purchase_detail'] = $this->PurchaseModel->getPurchaseDetail($id);
         $data['main_content'] = 'report/purchase_detail_view';                
         $this->load->view('template/template', $data);	

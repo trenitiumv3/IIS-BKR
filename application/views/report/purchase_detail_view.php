@@ -30,7 +30,8 @@
                     <table class="table tbl-header-trans">
                         <?php 
                             $discount= $data_purchase->extra_discount==""?0:$data_purchase->extra_discount;
-                            $finalPrice=($data_purchase->total_price-($data_purchase->total_price*$discount/100));                            
+                            $finalPrice=($data_purchase->total_price-($data_purchase->total_price*$discount/100));
+                            $modalAll=$data_income->total_modal==""?0:$data_income->total_modal;                            
                         ?>
                         <tr>
                             <td><b>ID Transaksi</b></td>
@@ -47,7 +48,12 @@
                         <tr>
                             <td><b>Total</b></td>
                             <td class="highlight"><?php echo $finalPrice;?></td>
-                        </tr>                            
+                        </tr> 
+                        <tr>
+                            <td><b>Keuntungan</b></td>
+                            <td class="highlight"><?php echo intval($finalPrice-$modalAll);?></td>
+                        </tr>
+                                                 
                     </table>
                     <div class="table-responsive">
                         <table id="report-table" class="table table-bordered table-striped table-hover dataTable">

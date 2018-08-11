@@ -22,6 +22,17 @@ class PurchaseModel extends CI_Model{
         return $query->result_array();	
     }
 
+    function getPurchaseByDatePeriode($startDate, $endDate){
+        $this->db->select('a.id, a.total_price, a.type_purchase, a.extra_discount, a.date_created,
+        usr.name');
+        $this->db->from('tr_purchase_summary a'); 
+        $this->db->join('ms_user usr', 'a.user_created=usr.id');          
+        $this->db->where(' DATE(a.date_created)>=', $startDate);  
+        $this->db->where(' DATE(a.date_created)<=', $endDate);        
+        $query = $this->db->get();
+        return $query->result_array();	
+    }
+
     function getPurchaseSummaryById($id){
         $this->db->select('a.id, a.total_price, a.type_purchase, a.extra_discount, a.date_created,
         usr.name');
@@ -44,11 +55,32 @@ class PurchaseModel extends CI_Model{
         return $query->result_array();	
     }
 
+    function getIncomePurchaseByPeriod($startDate, $endDate){
+        $this->db->select('date(a.date_created) as tanggal, count(*) as qty, sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit');
+        $this->db->from('tr_purchase a');                         
+        $this->db->where(' DATE(a.date_created)>=', $startDate);  
+        $this->db->where(' DATE(a.date_created)<=', $endDate); 
+        $this->db->group_by(array("DATE(a.date_created)"));         
+        $query = $this->db->get();
+
+        return $query->row();	
+    }
+
     function getIncomePurchase($date){
         $this->db->select('date(a.date_created) as tanggal, count(*) as qty, sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit');
         $this->db->from('tr_purchase a');                         
         $this->db->where('DATE(a.date_created)', $date);
         $this->db->group_by(array("DATE(a.date_created)"));         
+        $query = $this->db->get();
+
+        return $query->row();	
+    }
+
+    function getIncomePurchasePerBon($id){
+        $this->db->select('sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit');
+        $this->db->from('tr_purchase a');                         
+        $this->db->where('a.id_purchase_summary', $id);
+        $this->db->group_by(array("a.id_purchase_summary"));         
         $query = $this->db->get();
 
         return $query->row();	

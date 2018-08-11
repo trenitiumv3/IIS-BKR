@@ -20,15 +20,32 @@
                   
                 </div>
                 <div class="body">
-                    <!-- <div class="row clearfix">
-                        <div class="col-sm-4">
+                    <div class="row clearfix">
+                        <div class="col-sm-3">
+                            <label for="email_address">Tanggal Awal</label>                            
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" class="datepicker form-control" placeholder="Please choose a date...">
+                                    <input type="text" id="start-date" class="datepicker form-control" placeholder="Masukan tanggal...">
+                                </div>
+                            </div>                           
+                        </div>
+                        <div class="col-sm-3">
+                        <label for="email_address">Tanggal Akhir</label>    
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" id="end-date" class="datepicker form-control" placeholder="Masukan tanggal...">
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary waves-effect" id="btn-search">
+                                    <i class="material-icons">search</i>
+                                    <span>Cari</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="report-table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
@@ -52,7 +69,7 @@
                                     $modalAll=0;
                                     if(isset($data_income->total_modal)){
                                         $modalAll=$data_income->total_modal==""?0:$data_income->total_modal;
-                                    }                                    
+                                    }
 
                                     foreach($data_purchase as $row){
                                         $discount= $row['extra_discount']==""?0:$row['extra_discount'];
@@ -129,7 +146,7 @@
 
 <script>
     $(function() {
-        //$('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
+        $('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
         var table = $('#report-table').DataTable({
             "lengthChange": false,            
             columns: [
@@ -141,6 +158,28 @@
                 { data: 5, "width": "30%"},
                 { data: 6, "width": "30%"}
             ]
+        });
+
+        $("#btn-search").click(function(){
+            var startDate=$("#start-date").val().replace(/-/g, "");
+            var endDate=$("#end-date").val().replace(/-/g, "");
+
+            var startDateVal=$("#start-date").val();
+            var endDateVal=$("#end-date").val();
+            
+            if(startDate=="" || endDate==""){
+                alertify.set('notifier', 'position', 'bottom-right');
+                alertify.error('Tanggal Awal dan Akhir tidak boleh kosong');
+            }else{
+                if(startDate > endDate){
+                    alertify.set('notifier', 'position', 'bottom-right');
+                    alertify.error('Tanggal Awal tidak boleh lebih kecil dari Tanggal Akhir');
+                }else{
+                    window.setTimeout(function() {
+                        location.href = "<?php echo site_url('report/goToReportRange')?>/"+startDateVal+"/"+endDateVal;
+                    }, 100);
+                }
+            }
         });
     });
 </script>

@@ -176,7 +176,7 @@
                                 <a href="<?php echo site_url("report");?>">Laporan Hari ini</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url("item/addNewStock");?>">Laporan Bulanan</a>
+                                <a href="<?php echo site_url("report/goToReportRange");?>">Laporan Per Periode</a>
                             </li> 
                             <li>
                                 <a href="<?php echo site_url("report/goToHistoryStock");?>">Laporan Stock Barang</a>
