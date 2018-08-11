@@ -48,7 +48,7 @@ class PurchaseModel extends CI_Model{
         $this->db->select('date(a.date_created) as tanggal, count(*) as qty, sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit');
         $this->db->from('tr_purchase a');                         
         $this->db->where('DATE(a.date_created)', $date);
-        $this->db->group_by(array("a.date_created"));         
+        $this->db->group_by(array("DATE(a.date_created)"));         
         $query = $this->db->get();
 
         return $query->row();	
