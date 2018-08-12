@@ -72,8 +72,12 @@
                                     $countDebit=0;
                                     $countCash=0;
                                     $modalAll=0;
-                                    if(isset($data_income->total_modal)){
-                                        $modalAll=$data_income->total_modal==""?0:$data_income->total_modal;
+                                    // if(isset($data_income->total_modal)){
+                                    //     $modalAll=$data_income->total_modal==""?0:$data_income->total_modal;
+                                    // }
+
+                                    foreach($data_income as $row){
+                                        $modalAll+=($row['total_modal']); 
                                     }
 
                                     foreach($data_purchase as $row){

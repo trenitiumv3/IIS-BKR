@@ -65,7 +65,7 @@ class PurchaseModel extends CI_Model{
         $this->db->group_by(array("DATE(a.date_created)"));         
         $query = $this->db->get();
 
-        return $query->row();	
+        return $query->result_array();	
     }
 
     function getIncomePurchase($date){
