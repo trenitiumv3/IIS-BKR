@@ -66,12 +66,15 @@ class Report extends CI_Controller {
         $itemDetail = $this->ItemModel->getItemByBarcode($barcode);
         $id="";
         $itemName="";
+        $stock="";
         if(!empty($itemDetail)){
             $id=$itemDetail[0]['id'];
             $itemName=$itemDetail[0]['name'];
+            $stock=$itemDetail[0]['qty_stock'];
         }
         $data['barcode'] = $barcode;
         $data['itemName'] = $itemName;
+        $data['stock'] = $stock;
         $data['data_purchase'] = $this->ItemModel->getItemByBarcode($barcode);
         $data['data_purchase_detail'] = $this->StockItemModel->getListStockAdd($id);
         $data['main_content'] = 'report/stock_list_view';                

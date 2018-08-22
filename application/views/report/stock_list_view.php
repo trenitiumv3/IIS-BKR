@@ -45,6 +45,13 @@
                         </div>
                     </div>
 
+                    <label for="stok-curr">Stok saat ini <span class="col-pink"></span></label>                    
+                    <div class="form-group">
+                        <div class="form-line">
+                            <label><?php echo $stock;?></label>
+                        </div>
+                    </div>
+
                     <a id="btn-find" href="<?php echo site_url("report");?>">
                         <button type="button" class="btn btn-find btn-primary m-t-15 waves-effect">Cari</button>
                     </a>
@@ -69,7 +76,7 @@
                                 <tr>
                                     <td><?php echo $row['date_created'];?></td>
                                     <td><?php echo $row['supp_name'];?></td>
-                                    <td><?php echo $row['price_total_supplier']/$row['qty_trans'];?></td>
+                                    <td><?php echo round($row['price_total_supplier']/$row['qty_trans'], 2);?></td>
                                     <td><?php echo $row['qty_trans'];?></td>
                                     <td><?php echo $row['last_qty_stock'];?></td>                                                                                                                                        
                                 </tr>
@@ -87,7 +94,8 @@
 <script>
     $(function() {       
         var table = $('#report-table').DataTable({
-            "lengthChange": true,            
+            "lengthChange": true,  
+            "order": [[ 0, 'dasc' ]],             
             columns: [
                 { data: 0,"width": "10%" },
                 { data: 1, "width": "10%"},
