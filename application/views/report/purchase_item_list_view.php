@@ -54,14 +54,11 @@
                         <table id="report-table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>             
-                                    <th>Tanggal Transaksi</th>  
-                                    <th>ID Transaksi</th>                               
-                                    <th>Jenis Pembayaran</th>
-                                    <th>Harga</th>
-                                    <th>Discount</th>
-                                    <th>Total</th>
-                                    <th>Kasir</th> 
-                                    <th>Action</th>                                            
+                                    <th>Nama Barang</th>  
+                                    <th>Total Qty</th>
+                                    <th>Total Harga Modal</th>                               
+                                    <th>Total Harga Jual</th>
+                                    <th>Keuntungan</th>                                          
                                 </tr>
                             </thead>                                    
                             <tbody>
@@ -71,81 +68,20 @@
                                     $totalDebit=0;
                                     $countDebit=0;
                                     $countCash=0;
-                                    $modalAll=0;
-                                    // if(isset($data_income->total_modal)){
-                                    //     $modalAll=$data_income->total_modal==""?0:$data_income->total_modal;
-                                    // }
-
-                                    foreach($data_income as $row){
-                                        $modalAll+=($row['total_modal']); 
-                                    }
-
-                                    foreach($data_purchase as $row){
-                                        $discount= $row['extra_discount']==""?0:$row['extra_discount'];
-                                        $finalPrice=($row['total_price']-($row['total_price']*$discount/100));
-                                        $totalPurchase += $finalPrice;
-                                        if($row['type_purchase']=="cash"){
-                                            $totalCash+=$finalPrice;
-                                            $countCash++;
-                                        }else if($row['type_purchase']=="debit"){
-                                            $totalDebit+=$finalPrice;
-                                            $countDebit++;
-                                        }
+                                    $modalAll=0;   
+                                    
+                                    foreach($data_purchase as $row){                                       
                                 ?>
                                 <tr>
-                                    <td><?php echo $row['date_created'];?></td>
-                                    <td><?php echo $row['id'];?></td>
-                                    <td><?php echo $row['type_purchase'];?></td>
-                                    <td><?php echo $row['total_price'];?></td>
-                                    <td><?php echo $discount;?>%</td>
-                                    <td><?php echo $finalPrice;?></td>
-                                    <td><?php echo $row['name'];?></td>                                    
-                                    <td class="dt-center">
-                                        <a href="<?php echo site_url().'/report/goToPurchaseDetail/'.$row['id'];?>">
-                                            <button type="button" class="btn btn-primary btn-xs">
-                                                Detail
-                                            </button>
-                                        </a>
-                                    </td>
+                                    <td><?php echo $row['name'];?></td>
+                                    <td><?php echo $row['qty'];?></td>
+                                    <td><?php echo $row['total_modal'];?></td>
+                                    <td><?php echo $row['total_penjualan'];?></td>
+                                    <td><?php echo $row['profit'];?></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
-                        </table>
-
-                        <table class="table">                            
-                            <tr>
-                                <td><b>Total Transaksi Cash</b></td>
-                                <td class="highlight"><?php echo $countCash;?></td>
-                            </tr>
-                            <tr>
-                                <td><b>Total Transaksi Debit</b></td>
-                                <td class="highlight"><?php echo $countDebit;?></td>
-                            </tr>
-                            <tr>
-                                <td><b>Total Transaksi</b></td>
-                                <td class="highlight"><?php echo count($data_purchase);?></td>
-                            </tr>                            
-                            <tr>
-                                <td><b>Total Penjualan Cash</b></td>
-                                <td class="highlight"><?php echo $totalCash;?></td>
-                            </tr>
-                            <tr>
-                                <td><b>Total Penjualan Debit</b></td>
-                                <td class="highlight"><?php echo $totalDebit;?></td>
-                            </tr>
-                            <tr>
-                                <td><b>Total Penjualan</b></td>
-                                <td class="highlight"><?php echo intval($totalPurchase);?></td>
-                            </tr>
-                            <tr>
-                                <td><b>Total Harga Supplier</b></td>
-                                <td class="highlight"><?php echo intval($modalAll);?></td>
-                            </tr>
-                            <tr>
-                                <td><b>Total Keuntungan</b></td>
-                                <td class="highlight"><?php echo intval($totalPurchase-$modalAll);?></td>
-                            </tr>
-                        </table>
+                        </table>                        
                     </div>
                 </div>
             </div>
@@ -159,16 +95,13 @@
         $('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
         var table = $('#report-table').DataTable({
             "lengthChange": false, 
-            "order": [[ 0, 'dasc' ]],           
+            "order": [[ 1, 'dasc' ]],           
             columns: [
-                { data: 0,"width": "15%" },
-                { data: 1, "width": "10%"},
-                { data: 2, "width": "10%"},
-                { data: 3, "width": "15%"},
-                { data: 4, "width": "10%"},
-                { data: 5, "width": "20%"},
-                { data: 6, "width": "10%"},
-                { data: 6, "width": "10%"},
+                { data: 0,"width": "20%" },
+                { data: 1, "width": "20%"},
+                { data: 2, "width": "20%"},
+                { data: 3, "width": "20%"},
+                { data: 4, "width": "20%"}
             ]
         });
 
@@ -194,7 +127,7 @@
                         alertify.error('Masksimal Periode adalah 31 hari');
                     }else{
                         window.setTimeout(function() {
-                            location.href = "<?php echo site_url('report/goToReportRange')?>/"+startDateVal+"/"+endDateVal;
+                            location.href = "<?php echo site_url('report/goToPurchaseItem')?>/"+startDateVal+"/"+endDateVal;
                         }, 100);
                     }                    
                     

@@ -57,6 +57,19 @@ class PurchaseModel extends CI_Model{
         return $query->result_array();	
     }
 
+    function getItemPurchaseByPeriod($startDate, $endDate){
+        $this->db->select('count(*) as qty, sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit, itm.name');
+        $this->db->from('tr_purchase a');    
+        $this->db->join('ms_item itm', 'a.id_item=itm.id');                 
+        $this->db->where(' DATE(a.date_created)>=', $startDate);  
+        $this->db->where(' DATE(a.date_created)<=', $endDate); 
+        $this->db->group_by(array("a.id_item"));
+        $this->db->order_by("qty","DESC");         
+        $query = $this->db->get();
+
+        return $query->result_array();	
+    }
+
     function getIncomePurchaseByPeriod($startDate, $endDate){
         $this->db->select('date(a.date_created) as tanggal, count(*) as qty, sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit');
         $this->db->from('tr_purchase a');                         

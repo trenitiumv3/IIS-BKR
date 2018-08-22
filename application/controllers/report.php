@@ -78,6 +78,18 @@ class Report extends CI_Controller {
         $this->load->view('template/template', $data);	
     }
 
+    function goToPurchaseItem($startDate="",$endDate=""){
+        //$this->output->enable_profiler(TRUE);
+        $today=date("Y-m-d");
+        $data['data_purchase'] = $this->PurchaseModel->getItemPurchaseByPeriod($startDate,$endDate);
+        
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+		$data['main_content'] = 'report/purchase_item_list_view';                
+        $this->load->view('template/template', $data);	
+        
+    }
+
     function is_logged_in(){
         $is_logged_in = $this->session->userdata('is_logged_in');
         if(!isset($is_logged_in) || $is_logged_in != true) {

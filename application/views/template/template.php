@@ -182,7 +182,7 @@
                                 <a href="<?php echo site_url("report/goToHistoryStock");?>">Laporan Stock Barang</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url("report/goToHistoryStock");?>">Laporan Penjualan Barang</a>
+                                <a href="<?php echo site_url("report/goToPurchaseItem");?>">Laporan Penjualan Barang</a>
                             </li>                            
                         </ul>
                     </li>  
