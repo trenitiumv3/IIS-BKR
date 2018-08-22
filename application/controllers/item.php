@@ -9,6 +9,7 @@ class Item extends CI_Controller {
         $this->load->model('ItemModel',"ItemModel");
         $this->load->model('StockModel',"StockModel");
         $this->load->model('ItemDiscountModel',"ItemDiscountModel");  
+        $this->load->model('PurchaseModel',"PurchaseModel");  
         $this->is_logged_in();              
     }
 
@@ -221,7 +222,6 @@ class Item extends CI_Controller {
 
         // BEGIN ADD
         $this->db->trans_begin();
-
         $datetime = date('Y-m-d H:i:s', time());
         $dataNewItem=array(
             'name'=>$itemName,
@@ -294,11 +294,73 @@ class Item extends CI_Controller {
                 }                        
             }
         }else{
-            $status = "error";
-            $msg="Barcode ini sudah terdaftar";
+            // Existing Item
+            if($checkBarcode[0]['status']=='4'){
+                // Update Delete Item
+                $dataNewItem=array(
+                    'name'=>$itemName,
+                    'description'=>$desc,
+                    'barcode'=>$barcode,
+                    'price_supplier'=>$priceSupplier,
+                    'price_customer'=>$priceCustomer,
+                    'qty_stock'=>$qtyStock,
+                    'status'=>3,                    
+                    "user_updated"=>$this->session->userdata('userId'),
+                    "date_updated"=>$datetime,
+                );
+
+                $id_item=$checkBarcode[0]['id'];               
+                $updated_row = $this->ItemModel->updateItem($dataNewItem, $id_item);                
+
+                $price_total_supplier = $qtyStock * $priceSupplier;
+                $data_stock[] = array(	
+                    'id_item' => $id_item,
+                    'type_trans' => "add_stock",
+                    'id_supplier' => $supplier,
+                    'qty_trans' => $qtyStock,
+                    'price_total_supplier' => $price_total_supplier,
+                    'last_qty_stock' => 0,
+                    'current_qty_stock' => 0,
+                    'status' => 0,
+                    'user_created' => $this->session->userdata('userId')            
+                );
+                // MASUKIN STOK BATCH
+                $isSuccess = $this->StockModel->addStockBatch($data_stock);                  
+
+                // MASUKIN DISCOUNT
+                $itemDiscount = array();                     
+                foreach($itemList as $row){                        
+                    $priceDiscount=array(
+                        'id_item'=>$id_item,
+                        'qty_for_discount'=>$row->qty,
+                        'discount'=>$row->price
+                    );
+                    array_push($itemDiscount, $priceDiscount);
+                }
+                $isSuccessDiscount = true;
+                if(!empty($itemDiscount)){
+                    //delete then insert new discount
+                    $this->ItemDiscountModel->deleteDiscountByItem($id_item);
+                    $isSuccessDiscount = $this->ItemDiscountModel->addDiscountBatch($itemDiscount);
+                }
+
+                if ($this->db->trans_status() === FALSE) {
+                    // ERROR 
+                    $status = "error";
+                    $msg="Cannot save master to Database, Error When Save Price";
+                }else{
+                    //SUCCESS
+                    $this->db->trans_commit();
+                    $status = "success";
+                    $msg="Item berhasil diperbarui...";                                        
+                }                
+            }else{
+                $status = "error";
+                $msg="Barcode ini sudah terdaftar";
+            }            
         }
         echo json_encode(array('status' => $status, 'msg' => $msg));                                        
-    }
+    }    
 
     function dataSatuanListAjax($superUserID=""){
 
@@ -412,6 +474,46 @@ class Item extends CI_Controller {
             $msg="Barcode ini sudah terdaftar";
         }        
         echo json_encode(array('status' => $status, 'msg' => $msg));                                        
+    }
+
+    function deleteItem(){
+        $status = "";
+        $msg="";
+
+        //$userLogin = $this->session->userdata('username');
+        $item_id = $this->security->xss_clean($this->input->post('item_id'));
+        $check = $this->PurchaseModel->checkItemPurchase($item_id);
+        $this->db->trans_begin();
+        if($check==0){            
+            $this->StockModel->deleteStockItem($item_id);
+            $this->ItemModel->deleteItem($item_id);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                $status = "error";
+                $msg="Cannot save master to Database, Error When Delete Item";
+            }else{
+                $this->db->trans_commit();
+                $status = "success";
+                $msg="Item berhasil dihapus";
+            }
+        }else{
+            $dataDel=array(                
+                'status'=>4
+            );
+            $this->ItemModel->updateItem($dataDel, $item_id);
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                $status = "error";
+                $msg="Cannot save master to Database, Error When Delete Item";
+            }else{
+                $this->db->trans_commit();
+                $status = "success";
+                $msg="Item berhasil dihapus";
+            }
+        }
+        
+        echo json_encode(array('status' => $status, 'msg' => $msg));
     }
 
     function is_logged_in(){

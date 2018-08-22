@@ -23,5 +23,9 @@ class StockModel extends CI_Model{
         return $query->result_array();	
     }
 
+    function deleteStockItem($id){
+        $this->db->where('id',$id);
+        $this->db->delete('tr_stock_item');
+    }	
 }
 ?>

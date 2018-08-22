@@ -1,7 +1,7 @@
 <?php
 class ItemModel extends CI_Model{
 
-	var $column_order = array('id','barcode','name','description','qty_stock',null); //set column field database for datatable orderable
+	var $column_order = array('id','barcode','name','description','qty_stock',"status",null); //set column field database for datatable orderable
     var $column_search = array('name','barcode', 'description'); //set column field database for datatable searchable just firstname ,
 
     function getItemList(){
@@ -44,7 +44,7 @@ class ItemModel extends CI_Model{
 
     function getItemListData ($searchText,$orderByColumnIndex,$orderDir, $start,$limit){
         $this->_dataItemQuery($searchText,$orderByColumnIndex,$orderDir);
-        //$this->db->where('a.createdBy',$superUserID);
+        $this->db->where('a.status','3');
         // LIMIT
         if($limit!=null || $start!=null){
             $this->db->limit($limit, $start);
@@ -55,6 +55,7 @@ class ItemModel extends CI_Model{
 
     public function count_all(){
         $this->db->from("ms_item a");
+        $this->db->where('a.status','3');
         //$this->db->where('a.createdBy',$superUserID);
 
         return $this->db->count_all_results();
@@ -62,6 +63,7 @@ class ItemModel extends CI_Model{
 
     function count_filtered($searchText){
         $this->_dataItemQuery($searchText,null,null);
+        $this->db->where('a.status','3');
         //$this->db->where('a.createdBy',$superUserID);
 
         $query = $this->db->get();

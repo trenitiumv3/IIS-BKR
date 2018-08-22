@@ -78,6 +78,16 @@ class PurchaseModel extends CI_Model{
         return $query->row();	
     }
 
+    function checkItemPurchase($id){
+        $this->db->select('a.id_item');
+        $this->db->from('tr_purchase a');                                 
+        $this->db->where('a.id_item',$id);                                 
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        return $query->num_rows();	
+    }
+
     function getIncomePurchasePerBon($id){
         $this->db->select('sum(a.price_customer) as total_penjualan, sum(a.price_supplier) as total_modal, sum(a.price_customer) - sum(a.price_supplier) as profit');
         $this->db->from('tr_purchase a');                         

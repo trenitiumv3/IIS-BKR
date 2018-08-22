@@ -18,6 +18,13 @@ class ItemDiscountModel extends CI_Model{
         return $result;
     }
     
+    function deleteDiscountByItem($id){
+        $this->db->where('id_item',$id);
+        $this->db->delete('item_discount');
+        $result=$this->db->affected_rows();
+        return $result;
+    }
+
     function deleteDiscount($id){
         $this->db->where('id',$id);
         $this->db->delete('item_discount');

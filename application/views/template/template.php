@@ -173,13 +173,16 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="<?php echo site_url("report");?>">Laporan Hari ini</a>
+                                <a href="<?php echo site_url("report");?>">Laporan Penjualan Hari ini</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url("report/goToReportRange");?>">Laporan Per Periode</a>
+                                <a href="<?php echo site_url("report/goToReportRange");?>">Laporan Penjualan Per Periode</a>
                             </li> 
                             <li>
                                 <a href="<?php echo site_url("report/goToHistoryStock");?>">Laporan Stock Barang</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url("report/goToHistoryStock");?>">Laporan Penjualan Barang</a>
                             </li>                            
                         </ul>
                     </li>  
