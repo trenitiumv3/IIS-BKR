@@ -168,7 +168,7 @@
                 { data: 4, "width": "10%"},
                 { data: 5, "width": "20%"},
                 { data: 6, "width": "10%"},
-                { data: 6, "width": "10%"},
+                { data: 7, "width": "10%"},
             ]
         });
 
