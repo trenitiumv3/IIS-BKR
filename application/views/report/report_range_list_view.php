@@ -101,7 +101,7 @@
                                     <td><?php echo $finalPrice;?></td>
                                     <td><?php echo $row['name'];?></td>                                    
                                     <td class="dt-center">
-                                        <a href="<?php echo site_url().'/report/goToPurchaseDetail/'.$row['id'];?>">
+                                        <a href="<?php echo site_url().'/report/goToPurchaseDetail/'.$row['id'].'/'.$startDate.'/'.$endDate.'/period';?>">
                                             <button type="button" class="btn btn-primary btn-xs">
                                                 Detail
                                             </button>

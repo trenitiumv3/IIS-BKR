@@ -23,8 +23,22 @@
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
-                <div class="header">                    
-                  
+                <div class="header">
+                    <?php if($isPeriod !=""){ ?>
+                        <a href="<?php echo site_url('report/goToReportRange').'/'.$startDate.'/'.$endDate?>">              
+                            <button type="button" class="btn btn-primary waves-effect" id="btn-search">
+                                <i class="material-icons">keyboard_backspace</i>
+                                <span>KEMBALI KE LIST</span>
+                            </button>
+                        </a>      
+                    <?php }else{ ?>
+                        <a href="<?php echo site_url('report');?>">              
+                            <button type="button" class="btn btn-primary waves-effect" id="btn-search">
+                                <i class="material-icons">keyboard_backspace</i>
+                                <span>KEMBALI KE LIST</span>
+                            </button>
+                        </a>      
+                    <?php } ?>
                 </div>
                 <div class="body">
                     <table class="table tbl-header-trans">
@@ -103,6 +117,10 @@
                 { data: 3, "width": "10%"},
                 { data: 4, "width": "20%"}                
             ]
+        });
+
+        $("#btn-back").click(function(){
+            location.href = "<?php echo site_url('report/goToReportRange')?>/"+startDateVal+"/"+endDateVal;
         });
     });
 </script>

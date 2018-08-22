@@ -54,7 +54,10 @@ class Report extends CI_Controller {
         $this->load->view('template/template', $data);	
     }
 
-    function goToPurchaseDetail($id){        
+    function goToPurchaseDetail($id,$startDate="",$endDate="",$periode=""){        
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+        $data['isPeriod'] = $periode;
         $data['data_purchase'] = $this->PurchaseModel->getPurchaseSummaryById($id);
         $data['data_income'] = $this->PurchaseModel->getIncomePurchasePerBon($id);
         $data['data_purchase_detail'] = $this->PurchaseModel->getPurchaseDetail($id);
