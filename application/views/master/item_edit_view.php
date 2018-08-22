@@ -238,7 +238,7 @@
     $(".remove-discount").click(function(){
         var oldData = $(this).attr("data-old");
         if(oldData=="true"){
-            var dataDel = $(this).attr("data-del");
+            var dataDel = $(this).closest(".price-item-list").attr("data-del");
             if(dataDel=="true"){
                 $(this).closest(".price-item-list").removeClass("delete-border");
                 $(this).closest(".price-item-list").attr("data-del","false");

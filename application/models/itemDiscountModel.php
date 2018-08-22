@@ -29,6 +29,7 @@ class ItemDiscountModel extends CI_Model{
         $this->db->select('*');
         $this->db->from('item_discount a');
         $this->db->where('a.id_item', $itemId);
+        $this->db->order_by("a.qty_for_discount", "ASC");
         $query = $this->db->get();
         return $query->result_array();
     }

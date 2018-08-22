@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Report extends CI_Controller {
 
     function __construct(){
@@ -20,6 +23,24 @@ class Report extends CI_Controller {
         $data['data_income'] = $this->PurchaseModel->getIncomePurchase($today);
 		$data['main_content'] = 'report/report_list_view';                
         $this->load->view('template/template', $data);	
+    }
+
+    public function download()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Hello World !');
+        
+        $writer = new Xlsx($spreadsheet);
+ 
+        $filename = 'name-of-the-generated-file';
+ 
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        
+        $writer->save('php://output'); // download file 
+ 
     }
 
     public function goToReportRange($startDate="",$endDate=""){                   
