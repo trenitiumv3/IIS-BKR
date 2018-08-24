@@ -94,7 +94,7 @@
     $(function() {
         $('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
         var table = $('#report-table').DataTable({
-            "lengthChange": false, 
+            "lengthChange": true,  
             "order": [[ 1, 'dasc' ]],           
             columns: [
                 { data: 0,"width": "20%" },

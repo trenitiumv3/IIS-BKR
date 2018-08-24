@@ -41,12 +41,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-1">
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary waves-effect" id="btn-search">
                                     <i class="material-icons">search</i>
                                     <span>Cari</span>
                                 </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group">    
+                                <a href="<?php echo site_url('report/downloadReportRange').'/'.$startDate.'/'.$endDate?>">
+                                    <button type="button" class="btn btn-primary waves-effect" id="btn-download">
+                                        <i class="material-icons">file_download</i>
+                                        <span>Download</span>
+                                    </button>                                
+                                </a>                            
+                                
                             </div>
                         </div>
                     </div>
@@ -158,7 +169,7 @@
     $(function() {
         $('input').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
         var table = $('#report-table').DataTable({
-            "lengthChange": false, 
+            "lengthChange": true,  
             "order": [[ 0, 'dasc' ]],           
             columns: [
                 { data: 0,"width": "15%" },
@@ -201,6 +212,29 @@
                 }
             }
         });
+
+        // $("#btn-download").click(function(){            
+        //     $.ajax({
+        //         url: "<?php echo site_url('report/downloadReportRange').'/'.$startDate.'/'.$endDate?>",                
+        //         type: "GET",                
+        //         cache: false,
+        //         contentType: false,
+        //         processData: false,
+        //         beforeSend: function() {
+        //             $("#load_screen").show();
+        //         },
+        //         success: function(data) {
+                    
+        //         },
+        //         error: function(xhr, status, error) {
+        //             //var err = eval("(" + xhr.responseText + ")");
+        //             //alertify.error(xhr.responseText);
+        //             $("#load_screen").hide();
+        //             alertify.set('notifier', 'position', 'bottom-right');
+        //             alertify.error('Cannot response server !');
+        //         }
+        //     });
+        // });
 
         function parseDate(str) {
             var mdy = str.split('-');
