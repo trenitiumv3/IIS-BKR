@@ -488,9 +488,22 @@ class Item extends CI_Controller {
         $check = $this->PurchaseModel->checkItemPurchase($item_id);
         $this->db->trans_begin();
         if($check==0){            
-            $this->StockModel->deleteStockItem($item_id);
-            $this->ItemModel->deleteItem($item_id);
+            // $this->StockModel->deleteStockItem($item_id);
+            // $this->ItemModel->deleteItem($item_id);
 
+            // if ($this->db->trans_status() === FALSE) {
+            //     $this->db->trans_rollback();
+            //     $status = "error";
+            //     $msg="Cannot save master to Database, Error When Delete Item";
+            // }else{
+            //     $this->db->trans_commit();
+            //     $status = "success";
+            //     $msg="Item berhasil dihapus";
+            // }
+            $dataDel=array(                
+                'status'=>4
+            );
+            $this->ItemModel->updateItem($dataDel, $item_id);
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 $status = "error";
