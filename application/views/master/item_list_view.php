@@ -27,8 +27,10 @@
                                     <th>No</th> 
                                     <th>Barcode</th>                               
                                     <th>Nama Item</th>
-                                    <th>Deskripsi</th>
-                                    <th>Stock</th>                                            
+                                    <th>Deskripsi</th>                                    
+                                    <th>Stock</th>    
+                                    <th>Supplier</th>
+                                    <th>Status</th>                                        
                                     <th>Action</th>                                            
                                 </tr>
                             </thead>                                    
@@ -104,9 +106,10 @@
                 { data: 1, "width": "20%"},
                 { data: 2, "width": "20%"},
                 { data: 3, "width": "20%"},
-                { data: 4, "width": "20%"},
+                { data: 4, "width": "10%"},
                 { data: 5, "width": "10%"},
-                { data: 6, "width": "10%"},              
+                { data: 6, "width": "10%"},
+                { data: 7, "width": "10%"},              
             ],
             //Set column definition initialisation properties.
             "columnDefs": [
@@ -116,21 +119,21 @@
                     "className": "dt-center",
                     "createdCell": function (td, cellData, rowData, row, col) {                    
                         var $btn_edit = $("<button>", { class:"btn btn-primary btn-xs edit-btn","type": "button",
-                            "data-value": rowData[8]});
+                            "data-value": rowData[9]});
                         $btn_edit.append("<span class='glyphicon glyphicon-pencil'></span>&nbsp Edit");                       
 
                         var $btn_del = $("<button>", { class:"btn btn-danger btn-xs del-btn","type": "button",
-                            "data-value": rowData[8], "data-name": rowData[2]});
+                            "data-value": rowData[9], "data-name": rowData[2]});
                         $btn_del.append("<span class='glyphicon glyphicon-remove'></span>&nbsp Hapus");
                        
                         $(td).html($btn_edit).append(" ").append(" ").append($btn_del);
                     }
                 },
                 {
-                    "targets": [ 5 ], //last column                    
+                    "targets": [6],
                     "className": "dt-center",
                     "createdCell": function (td, cellData, rowData, row, col) {                    
-                        if(rowData[5]=='3'){
+                        if(rowData[6]=='3'){
                             $(td).html("<span class='label label-success'>active</span>");
                         }else{
                             $(td).html("<span class='label label-danger'>delete</span>");

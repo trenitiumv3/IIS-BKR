@@ -64,7 +64,7 @@
                                     <th>Supplier</th>                               
                                     <th>Harga Supplier</th>                                    
                                     <th>Penambahan Stok</th>
-                                    <th>Stok Aawal</th>                       
+                                    <th>Stok Awal</th>                       
                                 </tr>
                             </thead>                                    
                             <tbody>

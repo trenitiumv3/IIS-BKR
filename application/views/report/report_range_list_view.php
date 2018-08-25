@@ -50,14 +50,20 @@
                             </div>
                         </div>
                         <div class="col-sm-1">
-                            <div class="form-group">    
-                                <a href="<?php echo site_url('report/downloadReportRange').'/'.$startDate.'/'.$endDate?>">
-                                    <button type="button" class="btn btn-primary waves-effect" id="btn-download">
+                            <div class="form-group">
+                                <?php if($startDate!="" && $endDate!=""){ ?>    
+                                    <a href="<?php echo site_url('report/downloadReportRange').'/'.$startDate.'/'.$endDate?>">
+                                        <button type="button" class="btn btn-primary waves-effect" id="btn-download">
+                                            <i class="material-icons">file_download</i>
+                                            <span>Download</span>
+                                        </button>                                
+                                    </a>                            
+                                <?php }else{ ?>
+                                    <button type="button" class="btn btn-default waves-effect" disabled="disabled" id="btn-download">
                                         <i class="material-icons">file_download</i>
                                         <span>Download</span>
-                                    </button>                                
-                                </a>                            
-                                
+                                    </button>   
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

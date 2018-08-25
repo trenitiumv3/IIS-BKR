@@ -16,8 +16,20 @@
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
-                <div class="header">                    
-                  
+                <div class="header"> 
+                    <div class="row clearfix">                   
+                        <div class="col-sm-1">
+                            <div class="form-group">    
+                                <a href="<?php echo site_url('report/downloadReportToday');?>">
+                                    <button type="button" class="btn btn-primary waves-effect" id="btn-download">
+                                        <i class="material-icons">file_download</i>
+                                        <span>Download</span>
+                                    </button>                                
+                                </a>                            
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="body">
                     <!-- <div class="row clearfix">

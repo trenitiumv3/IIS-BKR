@@ -41,12 +41,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-1">
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary waves-effect" id="btn-search">
                                     <i class="material-icons">search</i>
                                     <span>Cari</span>
                                 </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group">    
+                                <a href="<?php echo site_url('report/downloadReportPurchaseItem').'/'.$startDate.'/'.$endDate?>">
+                                    <button type="button" class="btn btn-primary waves-effect" id="btn-download">
+                                        <i class="material-icons">file_download</i>
+                                        <span>Download</span>
+                                    </button>                                
+                                </a>                            
+                                
                             </div>
                         </div>
                     </div>

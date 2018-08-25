@@ -1,8 +1,8 @@
 <?php
 class ItemModel extends CI_Model{
 
-	var $column_order = array('id','barcode','name','description','qty_stock',"status",null); //set column field database for datatable orderable
-    var $column_search = array('name','barcode', 'description'); //set column field database for datatable searchable just firstname ,
+	var $column_order = array('id','barcode','a.name','a.description','qty_stock','b.name',"a.status",null); //set column field database for datatable orderable
+    var $column_search = array('a.name','barcode','b.name','qty_stock','a.description'); //set column field database for datatable searchable just firstname ,
 
     function getItemList(){
         $this->db->select('*');
@@ -72,8 +72,9 @@ class ItemModel extends CI_Model{
     
     function _dataItemQuery($searchText,$orderByColumnIndex,$orderDir){
         $this->db->select('a.id, a.name, a.description, a.barcode, a.price_supplier, a.price_customer, a.qty_stock,
-        a.status, a.user_created, a.user_updated, a.date_created, a.date_updated');
+        a.status, a.user_created, a.user_updated, a.date_created, a.date_updated, IFNULL(b.name,"") as supplier_name');
         $this->db->from('ms_item a');
+        $this->db->join('ms_supplier b','a.id_supplier=b.id','LEFT');
         
         //WHERE
         $i = 0;

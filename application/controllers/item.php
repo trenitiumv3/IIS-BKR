@@ -73,8 +73,9 @@ class Item extends CI_Controller {
             $row[] = $item['barcode'];
             $row[] = $item['name'];
             $row[] = $item['description'];
-            $row[] = $item['qty_stock'];
-            $row[] = $item['status'];
+            $row[] = $item['qty_stock'];            
+            $row[] = $item['supplier_name'];
+            $row[] = $item['status'];            
             $row[] = date_format($date_created,"d M Y")." by ".$item['user_created'];
             $row[] = date_format($date_lastModified,"d M Y")." by ".$item['user_updated'];
             $row[] = $item['id'];
@@ -230,6 +231,7 @@ class Item extends CI_Controller {
             'price_supplier'=>$priceSupplier,
             'price_customer'=>$priceCustomer,
             'qty_stock'=>$qtyStock,
+            'id_supplier'=>$supplier,
             'status'=>3,
             "user_created" => $this->session->userdata('userId'),
 			"date_created"=>$datetime,
@@ -445,7 +447,8 @@ class Item extends CI_Controller {
             );
             $data_update_master[] = array(	'id' => $itemId,
                 'price_supplier' => $priceSupplier,
-				'qty_stock' => $current_qty_stock,
+                'qty_stock' => $current_qty_stock,
+                'id_supplier'=>$supplier,
                 'user_updated'=> $this->session->userdata('userId'),
                 'date_updated'=> $datetime
             );
