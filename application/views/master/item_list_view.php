@@ -71,7 +71,7 @@
                     <i class="material-icons">save</i>
                     <span>Ya</span>
                 </button>
-                <button type="button" class="btn btn-danger waves-effect" id="btn-cancel">
+                <button type="button" aria-label="close" data-dismiss="alert" class="btn btn-danger waves-effect" id="btn-cancel">
                     <i class="material-icons">clear</i>
                     <span>Cancel</span>
                 </button>
@@ -203,6 +203,10 @@
                     alertify.error('Cannot response server !');
                 }
             });
+        });
+
+        $("#btn-cancel").click(function(){
+            $("#confirm-delete-modal").modal('hide');
         });
     });
 </script>

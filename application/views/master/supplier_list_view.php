@@ -322,6 +322,10 @@
             });
         });
 
+        $("#btn-cancel").click(function(){
+            $("#confirm-delete-modal").modal('hide');
+        });
+
         // SAVE DATA TO DB
         $('#btn-save').click(saveDataEvent);
         $("#supplier-form-add").on("submit", saveDataEvent);
