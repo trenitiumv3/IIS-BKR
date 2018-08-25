@@ -130,8 +130,11 @@ class Purchase extends CI_Controller {
 			// MANIPULASI DATA ARR
 			$total_price_customer = 0;
 	        foreach ($p_arr_item_purchase as $key => $value) {
+	        	$item_detail = $this->ItemModel->getItemDetail($value->id_item);
+	        	$id_supplier = $item_detail[0]['id_supplier'];
 	        	$data_purchase[] = array(	'id_purchase_summary' => $p_id_purchase_summary,
 	        								'id_item' => $value->id_item,
+	        								'id_supplier' => $id_supplier,
 	        								'name_item' => $value->name_item,
 	        								'price_customer' => $value->price_customer,
 	        								'price_supplier' => $value->price_supplier,
